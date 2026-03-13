@@ -53,7 +53,7 @@ export function Fees() {
             className="group relative"
           >
             {/* Animated Glow Border */}
-            <div className="absolute -inset-[2px] bg-gradient-to-r from-primary/50 via-red-900/50 to-primary/50 rounded-3xl opacity-20 group-hover:opacity-100 blur-sm transition-opacity duration-500" />
+            <div className="absolute -inset-[2px] bg-gradient-to-r from-primary/50 via-primary/80 to-primary/50 rounded-3xl opacity-20 group-hover:opacity-100 blur-sm transition-opacity duration-500" />
             
             <div className="relative glass-minimal rounded-[22px] border border-white/10 p-8 md:p-12 overflow-hidden bg-background/80 md:bg-transparent">
               {/* Popular Badge */}
