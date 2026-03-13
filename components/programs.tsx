@@ -3,35 +3,37 @@
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/app/language-context'
 import { getTranslation } from '@/lib/translations'
-import { GiKarate, GiHighKick, GiBeltArmor, GiTrophy, GiVibratingShield } from 'react-icons/gi'
+import { FaFistRaised, FaMedal, FaShieldAlt } from 'react-icons/fa'
+import { MdOutlineSportsMartialArts } from 'react-icons/md'
+import { GiBlackBelt } from 'react-icons/gi'
 
 export function Programs() {
   const { language } = useLanguage()
 
   const programs = [
     {
-      icon: GiKarate,
+      icon: MdOutlineSportsMartialArts,
       titleKey: 'programs.kids',
       descKey: 'programs.kidsDesc',
       badge: getTranslation('programs.kidsAge', language),
     },
     {
-      icon: GiBeltArmor,
+      icon: GiBlackBelt,
       titleKey: 'programs.beginner',
       descKey: 'programs.beginnerDesc',
     },
     {
-      icon: GiHighKick,
+      icon: FaFistRaised,
       titleKey: 'programs.advanced',
       descKey: 'programs.advancedDesc',
     },
     {
-      icon: GiTrophy,
+      icon: FaMedal,
       titleKey: 'programs.competition',
       descKey: 'programs.competitionDesc',
     },
     {
-      icon: GiVibratingShield,
+      icon: FaShieldAlt,
       titleKey: 'programs.selfDefence',
       descKey: 'programs.selfDefenceDesc',
     },
