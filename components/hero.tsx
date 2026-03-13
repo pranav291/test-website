@@ -42,7 +42,7 @@ export function Hero() {
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-xs font-semibold text-primary uppercase tracking-widest">
-              Darbhanga Log Dhun
+              Darbhanga No.1
             </span>
           </motion.div>
 
