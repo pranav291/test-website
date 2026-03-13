@@ -1,107 +1,126 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { useLanguage } from '@/app/language-context'
 import { getTranslation } from '@/lib/translations'
-import { Shield, Users, Award, Swords, Heart } from 'lucide-react'
-
-const PROGRAMS = [
-  {
-    titleKey: 'programs.kids',
-    ageKey: 'programs.kidsAge',
-    descKey: 'programs.kidsDesc',
-    icon: Users,
-    gradient: 'from-blue-500/20 to-cyan-500/20',
-    borderColor: 'border-blue-500/30',
-  },
-  {
-    titleKey: 'programs.beginner',
-    ageKey: 'programs.kidsAge',
-    descKey: 'programs.beginnerDesc',
-    icon: Shield,
-    gradient: 'from-green-500/20 to-emerald-500/20',
-    borderColor: 'border-green-500/30',
-  },
-  {
-    titleKey: 'programs.advanced',
-    ageKey: 'programs.kidsAge',
-    descKey: 'programs.advancedDesc',
-    icon: Award,
-    gradient: 'from-primary/20 to-red-700/20',
-    borderColor: 'border-primary/30',
-  },
-  {
-    titleKey: 'programs.competition',
-    ageKey: 'programs.kidsAge',
-    descKey: 'programs.competitionDesc',
-    icon: Swords,
-    gradient: 'from-secondary/20 to-amber-500/20',
-    borderColor: 'border-secondary/30',
-  },
-  {
-    titleKey: 'programs.selfDefence',
-    ageKey: 'programs.kidsAge',
-    descKey: 'programs.selfDefenceDesc',
-    icon: Heart,
-    gradient: 'from-purple-500/20 to-pink-500/20',
-    borderColor: 'border-purple-500/30',
-  },
-]
+import { GiKarate, GiHighKick, GiBeltArmor, GiTrophy, GiVibratingShield } from 'react-icons/gi'
 
 export function Programs() {
   const { language } = useLanguage()
 
+  const programs = [
+    {
+      icon: GiKarate,
+      titleKey: 'programs.kids',
+      descKey: 'programs.kidsDesc',
+      badge: getTranslation('programs.kidsAge', language),
+    },
+    {
+      icon: GiBeltArmor,
+      titleKey: 'programs.beginner',
+      descKey: 'programs.beginnerDesc',
+    },
+    {
+      icon: GiHighKick,
+      titleKey: 'programs.advanced',
+      descKey: 'programs.advancedDesc',
+    },
+    {
+      icon: GiTrophy,
+      titleKey: 'programs.competition',
+      descKey: 'programs.competitionDesc',
+    },
+    {
+      icon: GiVibratingShield,
+      titleKey: 'programs.selfDefence',
+      descKey: 'programs.selfDefenceDesc',
+    },
+  ]
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 }
+    }
+  }
+
+  const item = {
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 200, damping: 20 } }
+  }
+
   return (
-    <section id="programs" className="py-20 md:py-28 relative">
-      {/* Decorative */}
-      <div className="absolute top-1/2 left-0 w-72 h-72 bg-primary/5 rounded-full blur-3xl -translate-y-1/2" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-primary text-sm font-semibold tracking-widest uppercase">
-            {getTranslation('nav.programs', language)}
+    <section id="programs" className="py-24 md:py-32 relative bg-background">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16 md:mb-24"
+        >
+          <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">
+            Curriculum
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">
-            <span className="gradient-text">{getTranslation('programs.title', language)}</span>
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white">
+            {getTranslation('programs.title', language)}
           </h2>
-          <div className="section-divider" />
-        </div>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+        </motion.div>
 
-        {/* Programs Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {PROGRAMS.map((program, index) => {
-            const Icon = program.icon
+        {/* Grid */}
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-100px" }}
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+        >
+          {programs.map((prog, index) => {
+            const Icon = prog.icon
             return (
-              <div
+              <motion.div
                 key={index}
-                className={`glass rounded-2xl p-6 md:p-8 card-glow group border ${program.borderColor} relative overflow-hidden`}
+                variants={item}
+                className="glass-minimal rounded-3xl p-8 relative group hover:bg-white/5 transition-all duration-500 overflow-hidden"
               >
-                {/* Gradient bg */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${program.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
-                <div className="relative">
-                  {/* Icon + Age Badge */}
-                  <div className="flex items-center justify-between mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <Icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <span className="text-xs font-semibold bg-primary/10 text-primary px-3 py-1 rounded-full">
-                      {getTranslation(program.ageKey, language)}
-                    </span>
-                  </div>
-
-                  {/* Content */}
-                  <h3 className="text-lg md:text-xl font-bold text-foreground mb-3">
-                    {getTranslation(program.titleKey, language)}
-                  </h3>
-                  <p className="text-sm md:text-base text-muted-foreground leading-relaxed">
-                    {getTranslation(program.descKey, language)}
-                  </p>
+                {/* Background glow effect */}
+                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none">
+                  <Icon className="w-32 h-32 absolute -top-4 -right-4 -rotate-12 text-white" />
                 </div>
-              </div>
+
+                <div className="relative z-10 flex flex-col h-full">
+                  <div className="flex justify-between items-start mb-8">
+                    <div className="w-16 h-16 bg-background rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300 shadow-xl">
+                      <Icon className="w-8 h-8 text-primary" />
+                    </div>
+                    {prog.badge && (
+                      <span className="bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider backdrop-blur-md">
+                        {prog.badge}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-white mb-4 tracking-tight group-hover:text-primary transition-colors">
+                    {getTranslation(prog.titleKey, language)}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed font-light mb-8 flex-1">
+                    {getTranslation(prog.descKey, language)}
+                  </p>
+                  
+                  <div className="mt-auto">
+                    <a href="#contact" className="inline-flex items-center text-sm font-bold text-white/50 group-hover:text-white transition-colors uppercase tracking-widest">
+                      Learn More <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
             )
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   )

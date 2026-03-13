@@ -1,84 +1,163 @@
 'use client'
 
-import { useState } from 'react'
-import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/app/language-context'
 import { getTranslation } from '@/lib/translations'
-import { X } from 'lucide-react'
+import { IoCloseOutline } from 'react-icons/io5'
+import { AiOutlineLoading3Quarters } from 'react-icons/ai'
+import { IGalleryImage } from '@/lib/models/GalleryImage'
 
-const GALLERY_IMAGES = [
-  { src: '/images/img1.jpg', alt: 'Taekwondo Training', span: 'md:col-span-2 md:row-span-2' },
-  { src: '/images/img2.jpg', alt: 'Students Practicing Kicks', span: '' },
-  { src: '/images/gallery-training.png', alt: 'Group Training Session', span: '' },
-  { src: '/images/img3.jpg', alt: 'Belt Promotion Ceremony', span: '' },
-  { src: '/images/gallery-competition.png', alt: 'Competition', span: 'md:col-span-2' },
-  { src: '/images/img4.jpg', alt: 'Academy Group Photo', span: '' },
+const DEFAULT_IMAGES = [
+  { url: '/images/img1.jpg', alt: 'Taekwondo Training', span: 'md:col-span-2 md:row-span-2' },
+  { url: '/images/img2.jpg', alt: 'Students Practicing Kicks', span: '' },
+  { url: '/images/gallery-training.png', alt: 'Group Training Session', span: '' },
+  { url: '/images/img3.jpg', alt: 'Belt Promotion Ceremony', span: '' },
+  { url: '/images/gallery-competition.png', alt: 'Competition', span: 'md:col-span-2' },
+  { url: '/images/img4.jpg', alt: 'Academy Group Photo', span: '' },
 ]
 
 export function Gallery() {
   const { language } = useLanguage()
   const [lightbox, setLightbox] = useState<string | null>(null)
+  const [dbImages, setDbImages] = useState<IGalleryImage[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchImages()
+  }, [])
+
+  const fetchImages = async () => {
+    try {
+      const res = await fetch('/api/gallery')
+      if (res.ok) {
+        const data = await res.json()
+        setDbImages(data)
+      }
+    } catch (error) {
+      console.error('Failed to fetch gallery images', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const allImages = [
+    ...dbImages.map(img => ({ url: img.url, alt: img.alt, span: '' })),
+    ...DEFAULT_IMAGES
+  ]
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  }
+
+  const item = {
+    hidden: { opacity: 0, scale: 0.9 },
+    show: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" } }
+  }
 
   return (
-    <section id="gallery" className="py-20 md:py-28 relative">
+    <section id="gallery" className="py-24 md:py-32 relative bg-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-primary text-sm font-semibold tracking-widest uppercase">
-            {getTranslation('nav.gallery', language)}
+        
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-16 md:mb-20"
+        >
+          <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">
+            Moments
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">
-            <span className="gradient-text">{getTranslation('nav.gallery', language)}</span>
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white">
+            {getTranslation('nav.gallery', language)}
           </h2>
-          <div className="section-divider" />
-        </div>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+        </motion.div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-          {GALLERY_IMAGES.map((image, index) => (
-            <div
-              key={index}
-              className={`relative overflow-hidden rounded-xl group cursor-pointer ${image.span}`}
-              style={{ minHeight: image.span.includes('row-span-2') ? '400px' : '200px' }}
-              onClick={() => setLightbox(image.src)}
-            >
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                <p className="text-white text-sm font-medium">{image.alt}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <AiOutlineLoading3Quarters className="w-10 h-10 text-primary animate-spin" />
+          </div>
+        ) : (
+          <motion.div 
+            variants={container}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 md:gap-4 auto-rows-[250px]"
+          >
+            {allImages.map((image, index) => (
+              <motion.div
+                variants={item}
+                key={index}
+                className={`relative overflow-hidden rounded-2xl group cursor-pointer border border-white/5 ${image.span || 'col-span-1 row-span-1'}`}
+                style={{ minHeight: image.span.includes('row-span-2') ? '500px' : '250px' }}
+                onClick={() => setLightbox(image.url)}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={image.url}
+                  alt={image.alt}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  loading="lazy"
+                />
+                
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                
+                {/* Caption Panel */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out flex flex-col items-center text-center">
+                  <div className="w-8 h-1 bg-primary rounded-full mb-3" />
+                  <p className="text-white font-semibold text-sm drop-shadow-lg tracking-wide">
+                    {image.alt}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
 
       {/* Lightbox */}
-      {lightbox && (
-        <div
-          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4"
-          onClick={() => setLightbox(null)}
-        >
-          <button
-            className="absolute top-6 right-6 text-white/80 hover:text-white p-2"
+      <AnimatePresence>
+        {lightbox && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[100] bg-background/95 flex items-center justify-center p-4 backdrop-blur-xl"
             onClick={() => setLightbox(null)}
           >
-            <X className="w-8 h-8" />
-          </button>
-          <div className="relative w-full max-w-4xl aspect-video">
-            <Image
-              src={lightbox}
-              alt="Gallery"
-              fill
-              className="object-contain"
-            />
-          </div>
-        </div>
-      )}
+            <button
+              className="absolute top-6 right-6 text-white/50 hover:text-white p-3 hover:bg-white/10 rounded-full transition-colors"
+              onClick={() => setLightbox(null)}
+            >
+              <IoCloseOutline size={32} />
+            </button>
+            <motion.div 
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-6xl h-[85vh] rounded-2xl overflow-hidden shadow-2xl shadow-primary/20 border border-white/10"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={lightbox}
+                alt="Gallery Preview"
+                className="w-full h-full object-contain bg-black/40"
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }

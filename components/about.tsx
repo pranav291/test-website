@@ -1,99 +1,149 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { useLanguage } from '@/app/language-context'
 import { getTranslation } from '@/lib/translations'
-import { Shield, Brain, Flame, Heart, Zap, Target, Award, Users } from 'lucide-react'
-
-const BENEFIT_ICONS = [Shield, Brain, Flame, Heart, Zap, Target, Award, Users]
+import { GiFist, GiMeditation, GiHeartBeats, GiTrophyCup, GiMuscleUp, GiBiceps, GiShintoShrine } from 'react-icons/gi'
+import { FaYinYang } from 'react-icons/fa'
 
 export function About() {
   const { language } = useLanguage()
 
   const benefits = [
-    'benefits.selfDefence',
-    'benefits.discipline',
-    'benefits.confidence',
-    'benefits.fitness',
-    'benefits.flexibility',
-    'benefits.focus',
-    'benefits.respect',
-    'benefits.leadership',
+    { icon: GiFist, titleKey: 'benefits.selfDefence' },
+    { icon: GiMeditation, titleKey: 'benefits.discipline' },
+    { icon: GiHeartBeats, titleKey: 'benefits.fitness' },
+    { icon: GiTrophyCup, titleKey: 'benefits.confidence' },
+    { icon: GiMuscleUp, titleKey: 'benefits.flexibility' },
+    { icon: FaYinYang, titleKey: 'benefits.focus' },
+    { icon: GiShintoShrine, titleKey: 'benefits.respect' },
+    { icon: GiBiceps, titleKey: 'benefits.leadership' },
   ]
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  }
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  }
+
   return (
-    <section id="about" className="py-20 md:py-28 relative overflow-hidden">
-      {/* Decorative bg */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+    <section id="about" className="py-24 md:py-32 relative overflow-hidden bg-background">
+      {/* Decorative */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Section Header */}
-        <div className="text-center mb-16">
-          <span className="text-primary text-sm font-semibold tracking-widest uppercase">
-            {getTranslation('nav.about', language)}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
+        {/* Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
+          <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">
+            Discover
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold mt-3 mb-4">
-            <span className="gradient-text">{getTranslation('about.title', language)}</span>
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white">
+            {getTranslation('about.title', language)}
           </h2>
-          <div className="section-divider mb-6" />
-          <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            {getTranslation('about.description', language)}
-          </p>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+        </motion.div>
+
+        {/* Description & Mission/Vision Cards */}
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed font-light">
+              {getTranslation('about.description', language)}
+            </p>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="grid gap-6"
+          >
+            {/* Mission */}
+            <div className="glass-minimal p-8 rounded-3xl group hover:-translate-y-2 transition-transform duration-300">
+              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300">
+                <GiFist className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
+                {getTranslation('about.mission', language)}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed font-light">
+                {getTranslation('about.missionText', language)}
+              </p>
+            </div>
+
+            {/* Vision */}
+            <div className="glass-minimal p-8 rounded-3xl group hover:-translate-y-2 transition-transform duration-300">
+              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300">
+                <FaYinYang className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
+                {getTranslation('about.vision', language)}
+              </h3>
+              <p className="text-muted-foreground leading-relaxed font-light">
+                {getTranslation('about.visionText', language)}
+              </p>
+            </div>
+          </motion.div>
         </div>
 
-        {/* Mission & Vision Cards */}
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-16">
-          {/* Mission */}
-          <div className="glass rounded-2xl p-8 card-glow group">
-            <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary/20 transition-colors">
-              <Target className="w-7 h-7 text-primary" />
-            </div>
-            <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">
-              {getTranslation('about.mission', language)}
-            </h3>
-            <p className="text-muted-foreground leading-relaxed">
-              {getTranslation('about.missionText', language)}
-            </p>
-          </div>
-
-          {/* Vision */}
-          <div className="glass rounded-2xl p-8 card-glow group">
-            <div className="w-14 h-14 rounded-xl bg-secondary/10 flex items-center justify-center mb-5 group-hover:bg-secondary/20 transition-colors">
-              <Flame className="w-7 h-7 text-secondary" />
-            </div>
-            <h3 className="text-xl md:text-2xl font-bold text-foreground mb-3">
-              {getTranslation('about.vision', language)}
-            </h3>
-            <p className="text-muted-foreground leading-relaxed">
-              {getTranslation('about.visionText', language)}
-            </p>
-          </div>
-        </div>
-
-        {/* Benefits */}
-        <div>
-          <h3 className="text-2xl md:text-3xl font-bold text-center mb-10">
-            <span className="gradient-text">{getTranslation('benefits.title', language)}</span>
+        {/* Benefits Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-12"
+        >
+          <h3 className="text-3xl font-bold text-white tracking-tight">
+            {getTranslation('benefits.title', language)}
           </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5">
-            {benefits.map((key, index) => {
-              const Icon = BENEFIT_ICONS[index]
-              return (
-                <div
-                  key={key}
-                  className="glass rounded-xl p-5 text-center card-glow group cursor-default"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform">
-                    <Icon className="w-6 h-6 text-primary" />
-                  </div>
-                  <p className="text-sm md:text-base font-semibold text-foreground">
-                    {getTranslation(key, language)}
-                  </p>
+        </motion.div>
+
+        <motion.div 
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-50px" }}
+          className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
+        >
+          {benefits.map((benefit, index) => {
+            const Icon = benefit.icon
+            return (
+              <motion.div
+                key={index}
+                variants={item}
+                className="glass-minimal p-6 rounded-2xl flex flex-col items-center justify-center text-center group hover:bg-white/5 transition-colors duration-300"
+              >
+                <div className="w-14 h-14 bg-background rounded-full flex items-center justify-center mb-4 border border-white/5 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300 shadow-lg">
+                  <Icon className="w-7 h-7 text-primary" />
                 </div>
-              )
-            })}
-          </div>
-        </div>
+                <h4 className="font-semibold text-foreground/90 group-hover:text-white transition-colors">
+                  {getTranslation(benefit.titleKey, language)}
+                </h4>
+              </motion.div>
+            )
+          })}
+        </motion.div>
+
       </div>
     </section>
   )
