@@ -53,10 +53,10 @@ export function Navbar() {
                 <Image src="/images/logo.png" alt="DTA Logo" fill className="object-cover" />
               </div>
               <div className="flex flex-col">
-                <span className="text-lg md:text-xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
+                <span className="text-base sm:text-lg md:text-xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
                   Darbhanga
                 </span>
-                <span className="text-[10px] md:text-xs text-muted-foreground uppercase tracking-widest -mt-1">
+                <span className="text-[9px] md:text-xs text-muted-foreground uppercase tracking-widest -mt-1">
                   Taekwondo
                 </span>
               </div>
@@ -94,16 +94,16 @@ export function Navbar() {
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center gap-4">
+            <div className="md:hidden flex items-center gap-2">
               <button
                 onClick={toggleLanguage}
-                className="p-2 text-foreground/80 text-xs font-bold uppercase"
+                className="px-2 py-1 text-foreground/80 text-[10px] font-bold uppercase border border-white/10 rounded-lg bg-white/5 active:bg-white/10"
               >
                 {language}
               </button>
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-foreground p-2"
+                className="text-foreground p-2 -mr-2"
                 aria-label="Toggle menu"
               >
                 {isMobileMenuOpen ? <HiX size={24} /> : <HiMenuAlt3 size={24} />}

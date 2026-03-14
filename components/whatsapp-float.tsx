@@ -20,7 +20,7 @@ export function WhatsAppFloat() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.5, y: 50 }}
           transition={{ type: "spring", stiffness: 260, damping: 20 }}
-          className="fixed bottom-6 lg:bottom-10 right-6 lg:right-10 z-[100]"
+          className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 z-[100]"
         >
           <a
             href="https://wa.me/918226856261?text=Hi%2C%20I%20want%20to%20know%20about%20Darbhanga%20Taekwondo%20Academy"
