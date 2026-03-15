@@ -3,8 +3,8 @@
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/app/language-context'
 import { getTranslation } from '@/lib/translations'
-import Image from 'next/image'
-import { FaInstagram, FaPhoneAlt, FaHeart, FaArrowUp } from 'react-icons/fa'
+import { DTALogo } from '@/components/logo'
+import { FaInstagram, FaPhoneAlt, FaHeart, FaArrowUp, FaClock, FaCode } from 'react-icons/fa'
 
 export function Footer() {
   const { language } = useLanguage()
@@ -16,6 +16,7 @@ export function Footer() {
     { label: getTranslation('nav.fees', language), href: '#fees' },
     { label: getTranslation('nav.gallery', language), href: '#gallery' },
     { label: getTranslation('nav.coach', language), href: '#coach' },
+    { label: 'FAQ', href: '#faq' },
     { label: getTranslation('nav.contact', language), href: '#contact' },
   ]
 
@@ -40,16 +41,9 @@ export function Footer() {
         <div className="grid grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16">
           
           {/* Brand */}
-          <div className="col-span-2 lg:col-span-4">
+          <div className="col-span-2 lg:col-span-3">
             <div className="flex items-center gap-4 mb-6">
-              <div className="relative w-12 h-12 rounded-xl overflow-hidden border border-white/10 shadow-lg shadow-primary/10">
-                <Image
-                  src="/images/logo.png"
-                  alt="DTA Logo"
-                  fill
-                  className="object-cover"
-                />
-              </div>
+              <DTALogo size={48} />
               <div>
                 <span className="text-xl font-black text-white tracking-tight block leading-none">DTA</span>
                 <span className="text-xs text-muted-foreground uppercase tracking-widest font-semibold">
@@ -58,7 +52,7 @@ export function Footer() {
               </div>
             </div>
             <p className="text-muted-foreground leading-relaxed font-light mb-8 max-w-sm">
-              {getTranslation('footer.location', language)} — Building strength, discipline, and character through martial arts.
+              {getTranslation('footer.location', language)}
             </p>
             <div className="flex gap-3">
               <a
@@ -81,7 +75,7 @@ export function Footer() {
           </div>
 
           {/* Quick Links */}
-          <div className="col-span-1 lg:col-span-3 lg:col-start-6">
+          <div className="col-span-1 lg:col-span-3 lg:col-start-5">
             <h4 className="text-sm font-bold text-white tracking-widest uppercase mb-6">
               Explore
             </h4>
@@ -101,7 +95,7 @@ export function Footer() {
           </div>
 
           {/* Programs */}
-          <div className="col-span-1 lg:col-span-4">
+          <div className="col-span-1 lg:col-span-3">
             <h4 className="text-sm font-bold text-white tracking-widest uppercase mb-6">
               {getTranslation('programs.title', language)}
             </h4>
@@ -119,6 +113,29 @@ export function Footer() {
               ))}
             </ul>
           </div>
+
+          {/* Timings */}
+          <div className="col-span-2 lg:col-span-3">
+            <h4 className="text-sm font-bold text-white tracking-widest uppercase mb-6">
+              {getTranslation('footer.timings', language)}
+            </h4>
+            <div className="glass-minimal rounded-2xl p-5 border border-white/5">
+              <div className="flex items-center gap-3 mb-4">
+                <FaClock className="w-4 h-4 text-amber-400" />
+                <span className="text-sm font-semibold text-white">{getTranslation('timing.title', language)}</span>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground font-light">Mon – Sat</span>
+                  <span className="text-white font-medium">4:00 – 6:00 PM</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground font-light">Sunday</span>
+                  <span className="text-red-400 font-medium">Closed</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -133,6 +150,10 @@ export function Footer() {
               <p className="flex items-center gap-1.5 text-xs text-muted-foreground/80 font-light uppercase tracking-widest">
                 Made with <FaHeart className="text-primary animate-pulse" size={10} /> in 
                 <span className="font-semibold text-white">Darbhanga</span>
+              </p>
+              <p className="flex items-center gap-1.5 text-xs text-muted-foreground/60 font-light">
+                <FaCode className="text-primary/60" size={10} />
+                {getTranslation('footer.developer', language)}
               </p>
               <button
                 onClick={scrollToTop}

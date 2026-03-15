@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/app/language-context'
 import { getTranslation } from '@/lib/translations'
-import { FaPhoneAlt, FaInstagram, FaMapMarkerAlt, FaExternalLinkAlt, FaPaperPlane } from 'react-icons/fa'
+import { FaPhoneAlt, FaInstagram, FaMapMarkerAlt, FaExternalLinkAlt, FaPaperPlane, FaClock } from 'react-icons/fa'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 
 export function Contact() {
@@ -41,6 +41,16 @@ export function Contact() {
       action: 'Get Directions',
       colorHover: 'hover:border-blue-500/50 hover:bg-blue-500/5',
       iconColor: 'text-blue-500',
+    },
+    {
+      icon: FaClock,
+      titleKey: 'timing.title',
+      value: getTranslation('timing.schedule', language),
+      subValue: getTranslation('timing.closed', language),
+      href: '#programs',
+      action: getTranslation('timing.action', language),
+      colorHover: 'hover:border-amber-500/50 hover:bg-amber-500/5',
+      iconColor: 'text-amber-500',
     },
   ]
 
@@ -109,7 +119,7 @@ export function Contact() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-50px" }}
-          className="grid md:grid-cols-3 gap-6 mb-16 md:mb-24 max-w-5xl mx-auto"
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16 md:mb-24 max-w-5xl mx-auto"
         >
           {contactCards.map((card, index) => {
             const Icon = card.icon
@@ -120,17 +130,20 @@ export function Contact() {
                 href={card.href}
                 target={card.href.startsWith('http') ? '_blank' : undefined}
                 rel={card.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className={`glass-minimal rounded-3xl p-8 text-center group transition-all duration-300 ${card.colorHover}`}
+                className={`glass-minimal rounded-3xl p-6 md:p-8 text-center group transition-all duration-300 ${card.colorHover}`}
               >
-                <div className="w-16 h-16 bg-background rounded-2xl flex items-center justify-center mx-auto mb-6 border border-white/5 group-hover:scale-110 transition-transform duration-300 shadow-xl">
-                  <Icon className={`w-7 h-7 ${card.iconColor}`} />
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-background rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 border border-white/5 group-hover:scale-110 transition-transform duration-300 shadow-xl">
+                  <Icon className={`w-6 h-6 md:w-7 md:h-7 ${card.iconColor}`} />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2 tracking-tight">
+                <h3 className="text-base md:text-xl font-bold text-white mb-1 md:mb-2 tracking-tight">
                   {getTranslation(card.titleKey, language)}
                 </h3>
-                <p className="text-muted-foreground font-light mb-6">{card.value}</p>
-                <span className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-foreground/50 group-hover:text-white transition-colors">
-                  {card.action} <FaExternalLinkAlt className="w-3 h-3" />
+                <p className="text-muted-foreground font-light text-xs md:text-sm mb-1">{card.value}</p>
+                {card.subValue && (
+                  <p className="text-xs text-red-400/80 font-medium">{card.subValue}</p>
+                )}
+                <span className="inline-flex items-center gap-2 text-[10px] md:text-xs font-bold uppercase tracking-widest text-foreground/50 group-hover:text-white transition-colors mt-3 md:mt-6">
+                  {card.action} <FaExternalLinkAlt className="w-2.5 h-2.5 md:w-3 md:h-3" />
                 </span>
               </motion.a>
             )
@@ -167,8 +180,8 @@ export function Contact() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h4 className="text-2xl font-bold text-white mb-3">Transmitted Successfully</h4>
-                <p className="text-muted-foreground font-light max-w-xs">Our team has received your message and will respond shortly.</p>
+                <h4 className="text-2xl font-bold text-white mb-3">Message Sent!</h4>
+                <p className="text-muted-foreground font-light max-w-xs">Our team will respond shortly.</p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
@@ -205,7 +218,7 @@ export function Contact() {
                 </div>
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold uppercase tracking-wider text-muted-foreground ml-1">
-                    Message Payload
+                    Message
                   </label>
                   <textarea
                     required

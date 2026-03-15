@@ -5,6 +5,18 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'ltalucknow.com',
+        pathname: '/images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'upload.wikimedia.org',
+        pathname: '/wikipedia/**',
+      },
+    ],
   },
   env: {
     MONGODB_URI: "mongodb://mongo:SZtuolEfsNFowavriuWFaeRvZTVzSdDo@tramway.proxy.rlwy.net:51073",
