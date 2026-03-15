@@ -49,9 +49,9 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/images/dta-logo.svg', type: 'image/svg+xml' },
+      { url: '/images/dta-logo.png', type: 'image/png' },
     ],
-    apple: '/images/dta-logo.svg',
+    apple: '/images/dta-logo.png',
   },
   openGraph: {
     title: 'DTA Darbhanga | Best Taekwondo Academy',
@@ -61,9 +61,9 @@ export const metadata: Metadata = {
     siteName: 'Darbhanga Taekwondo Academy',
     images: [
       {
-        url: '/images/dta-logo.svg',
+        url: '/images/dta-logo.png',
         width: 1200,
-        height: 630,
+        height: 1200,
         alt: 'Darbhanga Taekwondo Academy Logo',
       },
     ],
