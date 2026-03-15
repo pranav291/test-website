@@ -60,6 +60,12 @@ export function Coach() {
     { textKey: 'testimonials.student4', nameKey: 'testimonials.student4Name', roleKey: 'testimonials.student4Role', stars: 5, color: 'text-cyan-400 bg-cyan-500/20' },
     { textKey: 'testimonials.student5', nameKey: 'testimonials.student5Name', roleKey: 'testimonials.student5Role', stars: 5, color: 'text-rose-400 bg-rose-500/20' },
     { textKey: 'testimonials.student6', nameKey: 'testimonials.student6Name', roleKey: 'testimonials.student6Role', stars: 5, color: 'text-emerald-400 bg-emerald-500/20' },
+    { textKey: 'testimonials.student7', nameKey: 'testimonials.student7Name', roleKey: 'testimonials.student7Role', stars: 5, color: 'text-indigo-400 bg-indigo-500/20' },
+    { textKey: 'testimonials.parent4', nameKey: 'testimonials.parent4Name', roleKey: 'testimonials.parent4Role', stars: 5, color: 'text-orange-400 bg-orange-500/20' },
+    { textKey: 'testimonials.student8', nameKey: 'testimonials.student8Name', roleKey: 'testimonials.student8Role', stars: 5, color: 'text-teal-400 bg-teal-500/20' },
+    { textKey: 'testimonials.student9', nameKey: 'testimonials.student9Name', roleKey: 'testimonials.student9Role', stars: 5, color: 'text-lime-400 bg-lime-500/20' },
+    { textKey: 'testimonials.parent5', nameKey: 'testimonials.parent5Name', roleKey: 'testimonials.parent5Role', stars: 5, color: 'text-fuchsia-400 bg-fuchsia-500/20' },
+    { textKey: 'testimonials.student10', nameKey: 'testimonials.student10Name', roleKey: 'testimonials.student10Role', stars: 5, color: 'text-sky-400 bg-sky-500/20' },
   ]
 
   const container = {
