@@ -19,6 +19,7 @@ const faqKeys = [
   { q: 'faq.q10', a: 'faq.a10' },
   { q: 'faq.q11', a: 'faq.a11' },
   { q: 'faq.q12', a: 'faq.a12' },
+  { q: 'faq.q13', a: 'faq.a13' },
 ]
 
 export function FAQ() {

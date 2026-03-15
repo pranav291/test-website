@@ -55,13 +55,15 @@ export const translations: Record<Language, Record<string, string>> = {
     'programs.competitionDesc': 'Special practice to win medals in state and national games.',
     'programs.selfDefence': 'Self Defence',
     'programs.selfDefenceDesc': 'Learn how to protect yourself on the street with simple moves.',
+    'programs.fitness': 'Fitness & Weight Loss',
+    'programs.fitnessDesc': 'High energy classes to burn fat and build stamina. Get in the best shape of your life.',
     
     // Fees
     'fees.title': 'Simple Fee Plan',
     'fees.monthly': 'Monthly Fee',
     'fees.monthlyPrice': '₹500/month',
     'fees.admission': 'Admission',
-    'fees.admissionPrice': '₹500 (one time)',
+    'fees.admissionPrice': '₹1000 (50% Off! Now ₹500)',
     'fees.uniform': 'Dress',
     'fees.uniformPrice': '₹550 to ₹1000',
     'fees.feat1': 'Daily practice',
@@ -144,6 +146,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq.a11': 'Our academy is located in Darbhanga, Bihar. We serve students from Darbhanga city, Bela, Mirzapur, Laheriasarai, Baheri, and nearby areas.',
     'faq.q12': 'Can adults join too?',
     'faq.a12': 'Yes, adults are most welcome! We have dedicated training for adults focusing on fitness, self-defence, and stress relief. Age is never a barrier.',
+    'faq.q13': 'What is the Google rating of the academy?',
+    'faq.a13': 'We are proud to have a 5.0 Star ★★★★★ rating on Google. We are the number one rated Taekwondo Academy in Darbhanga.',
     
     // Timing
     'timing.title': 'Class Timing',
@@ -227,13 +231,15 @@ export const translations: Record<Language, Record<string, string>> = {
     'programs.competitionDesc': 'मेडल जीतने के लिए खास तैयारी।',
     'programs.selfDefence': 'आत्मरक्षा',
     'programs.selfDefenceDesc': 'मुसीबत में अपनी जान बचाना सीखें।',
+    'programs.fitness': 'फिटनेस और वेट लॉस',
+    'programs.fitnessDesc': 'फैट बर्न करने और स्टैमिना बढ़ाने के लिए हाई एनर्जी क्लास। फिटनेस के लिए बेहतरीन।',
     
     // Fees
     'fees.title': 'फीस की जानकारी',
     'fees.monthly': 'महीने की फीस',
     'fees.monthlyPrice': '₹500/महीना',
     'fees.admission': 'एडमिशन',
-    'fees.admissionPrice': '₹500 (एक बार)',
+    'fees.admissionPrice': '₹1000 (50% छूट! अब मात्र ₹500)',
     'fees.uniform': 'ड्रेस (Uniform)',
     'fees.uniformPrice': '₹550 से ₹1000',
     'fees.feat1': 'रोज प्रैक्टिस',
@@ -316,6 +322,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq.a11': 'हमारी अकादमी दरभंगा, बिहार में है। हम दरभंगा शहर, बेला, मिर्जापुर, लहेरियासराय, बहेड़ी और आसपास के क्षेत्रों के छात्रों को सेवा देते हैं।',
     'faq.q12': 'क्या बड़े (adults) भी ज्वाइन कर सकते हैं?',
     'faq.a12': 'हाँ, बड़ों का स्वागत है! फिटनेस, आत्मरक्षा और तनाव दूर करने के लिए खास ट्रेनिंग है। उम्र कोई बाधा नहीं।',
+    'faq.q13': 'अकादमी की गूगल रेटिंग क्या है?',
+    'faq.a13': 'हमें यह बताते हुए गर्व है कि हमारी गूगल रेटिंग 5.0 Star ★★★★★ है। हम दरभंगा की नंबर वन रेटिंग वाली अकादमी हैं।',
     
     // Timing
     'timing.title': 'क्लास टाइमिंग',
@@ -399,13 +407,15 @@ export const translations: Record<Language, Record<string, string>> = {
     'programs.competitionDesc': 'मेडल जीतए लेल खास तैयारी।',
     'programs.selfDefence': 'आत्मरक्षा',
     'programs.selfDefenceDesc': 'मुसीबत मे अपन जान बचएनाय सीखू।',
+    'programs.fitness': 'फिटनेस आओर वेट लॉस',
+    'programs.fitnessDesc': 'फैट बर्न करय आओर स्टैमिना बढ़ाबय लेल हाई एनर्जी क्लास।',
     
     // Fees
     'fees.title': 'फीस के जानकारी',
     'fees.monthly': 'महीना के फीस',
     'fees.monthlyPrice': '₹500/महीना',
     'fees.admission': 'एडमिशन',
-    'fees.admissionPrice': '₹500 (एक बेर)',
+    'fees.admissionPrice': '₹1000 (50% छूट! आब मात्र ₹500)',
     'fees.uniform': 'ड्रेस (Uniform)',
     'fees.uniformPrice': '₹550 सँ ₹1000',
     'fees.feat1': 'रोज प्रैक्टिस',
@@ -488,6 +498,8 @@ export const translations: Record<Language, Record<string, string>> = {
     'faq.a11': 'हमर अकादमी दरभंगा, बिहार मे छै। हम दरभंगा शहर, बेला, मिर्जापुर, लहेरियासराय, बहेड़ी आओर आसपास के छात्र के सेवा दैत छी।',
     'faq.q12': 'की बड़का (adults) भी ज्वाइन क सकैत छथि?',
     'faq.a12': 'हँ, बड़का के स्वागत छै! फिटनेस, आत्मरक्षा आओर तनाव दूर करय लेल खास ट्रेनिंग छै।',
+    'faq.q13': 'अकादमी के गूगल रेटिंग की छै?',
+    'faq.a13': 'हमरा ई बताबय मे गर्व अछि जे हमर गूगल रेटिंग 5.0 Star ★★★★★ छै। हम दरभंगा के नंबर वन रेटिंग वाला अकादमी छी।',
     
     // Timing
     'timing.title': 'क्लास टाइमिंग',

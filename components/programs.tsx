@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/app/language-context'
 import { getTranslation } from '@/lib/translations'
-import { FaFistRaised, FaMedal, FaShieldAlt } from 'react-icons/fa'
+import { FaChild, FaUserNinja, FaMedal, FaShieldAlt, FaArrowRight, FaFistRaised, FaHeartbeat } from 'react-icons/fa'
 import { MdOutlineSportsMartialArts } from 'react-icons/md'
 import { GiBlackBelt } from 'react-icons/gi'
 
@@ -36,6 +36,13 @@ export function Programs() {
       icon: FaShieldAlt,
       titleKey: 'programs.selfDefence',
       descKey: 'programs.selfDefenceDesc',
+    },
+    {
+      titleKey: 'programs.fitness',
+      descKey: 'programs.fitnessDesc',
+      icon: FaHeartbeat,
+      color: 'from-rose-500/20 to-rose-600/10',
+      iconColor: 'text-rose-400',
     },
   ]
 
@@ -79,7 +86,7 @@ export function Programs() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, margin: "-100px" }}
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 max-w-6xl mx-auto"
         >
           {programs.map((prog, index) => {
             const Icon = prog.icon

@@ -63,10 +63,11 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
   body {
-    @apply bg-background text-foreground selection:bg-primary/30 selection:text-foreground;
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
     overflow-x: hidden;
   }
   html {
@@ -75,27 +76,27 @@
   }
 }
 
-/* Minimal Utilities */
-.glass-minimal {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-}
+/* Custom Utilities */
+@layer utilities {
+  .glass {
+    @apply bg-background/60 backdrop-blur-xl border-y border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)];
+  }
+  
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)];
+  }
 
-.gradient-text-minimal {
-  background: linear-gradient(to right, #ffffff, #888888);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+  .glass-minimal {
+    @apply bg-white/[0.02] backdrop-blur-[2px] border border-white/[0.05];
+  }
 
-.gradient-text-primary {
-  background: linear-gradient(135deg, #f5e6b3, #d4af37); /* Cream to Gold */
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-primary to-white;
+  }
+
+  .text-gradient-primary {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400;
+  }
 }
 
 /* Base custom scrollbar */
