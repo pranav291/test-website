@@ -3,35 +3,35 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Ultra Minimal Dark Theme */
-  --background: oklch(0.12 0 0); /* Pure dark gray/black */
-  --foreground: oklch(0.98 0 0); /* Off-white */
-  
-  --card: oklch(0.15 0 0); /* Slightly lighter dark gray */
+  /* Ultra Minimal Dark Theme - Black, White, Purple */
+  --background: oklch(0.12 0 0); /* Pure black/dark gray */
+  --foreground: oklch(0.98 0 0); /* Pure white */
+
+  --card: oklch(0.15 0 0);
   --card-foreground: oklch(0.98 0 0);
-  
+
   --popover: oklch(0.15 0 0);
   --popover-foreground: oklch(0.98 0 0);
-  
-  --primary: oklch(0.85 0.05 80); /* Premium cream/gold */
-  --primary-foreground: oklch(0.12 0 0); /* Dark text on cream background */
-  
-  --secondary: oklch(0.20 0 0); /* Subtle deep gray */
+
+  --primary: oklch(0.65 0.25 290); /* Vibrant Purple */
+  --primary-foreground: oklch(0.98 0 0); /* White text on purple */
+
+  --secondary: oklch(0.20 0 0);
   --secondary-foreground: oklch(0.98 0 0);
-  
+
   --muted: oklch(0.18 0 0);
   --muted-foreground: oklch(0.65 0 0);
-  
-  --accent: oklch(0.22 0 0);
+
+  --accent: oklch(0.65 0.25 290); /* Vibrant Purple */
   --accent-foreground: oklch(0.98 0 0);
-  
-  --destructive: oklch(0.6 0.15 25); /* Keep a muted red for destructive */
+
+  --destructive: oklch(0.6 0.15 25);
   --destructive-foreground: oklch(0.98 0 0);
-  
-  --border: oklch(0.25 0 0); /* Subtle border */
+
+  --border: oklch(0.25 0 0);
   --input: oklch(0.20 0 0);
-  --ring: oklch(0.85 0.05 80); /* Cream ring */
-  
+  --ring: oklch(0.65 0.25 290); /* Purple ring */
+
   --radius: 1rem;
 }
 
@@ -65,11 +65,13 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     overflow-x: hidden;
   }
+
   html {
     scroll-behavior: smooth;
     overflow-x: hidden;
@@ -79,11 +81,11 @@
 /* Custom Utilities */
 @layer utilities {
   .glass {
-    @apply bg-background/60 backdrop-blur-xl border-y border-white/10 shadow-[0_4px_30px_rgba(0,0,0,0.5)];
+    @apply bg-background/60 backdrop-blur-xl border-y border-white/10 shadow-[0_4px_30px_rgba(0, 0, 0, 0.5)];
   }
-  
+
   .glass-card {
-    @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)];
+    @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-[0_8px_32px_0_rgba(0, 0, 0, 0.3)];
   }
 
   .glass-minimal {
@@ -103,13 +105,16 @@
 ::-webkit-scrollbar {
   width: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: oklch(0.12 0 0);
 }
+
 ::-webkit-scrollbar-thumb {
   background: oklch(0.25 0 0);
   border-radius: 6px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: oklch(0.35 0 0);
 }

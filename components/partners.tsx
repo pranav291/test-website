@@ -23,19 +23,19 @@ export function Partners() {
     },
     {
       name: 'World Taekwondo',
-      logo: '/images/world_taekwondo.png',
+      logo: '/images/partner-world-taekwondo.png',
       isExternal: false,
       nameKey: 'partners.world'
     },
     {
       name: 'National Sports Council',
-      logo: '/images/national_sports.png',
+      logo: '/images/partner-national-sports.png',
       isExternal: false,
       nameKey: 'partners.national'
     },
     {
       name: 'Bihar Sports Authority',
-      logo: '/images/bihar_sports.png',
+      logo: '/images/partner-bihar-sports.png',
       isExternal: false,
       nameKey: 'partners.authority'
     }
