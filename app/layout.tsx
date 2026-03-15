@@ -50,22 +50,22 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: '/images/logo.png', type: 'image/png' },
+      { url: '/images/dta-logo.svg', type: 'image/svg+xml' },
     ],
-    apple: '/images/logo.png',
+    apple: '/images/dta-logo.svg',
   },
   openGraph: {
     title: 'DTA Darbhanga | Best Taekwondo Academy',
     description:
       'Professional taekwondo training in Darbhanga, Bihar. Providing self defence, fitness & confidence classes for Bela, Mirzapur, and Laheriasarai.',
-    url: 'https://darbhanga-taekwondo.com',
+    url: 'https://darbhangataekwondo.fit',
     siteName: 'Darbhanga Taekwondo Academy',
     images: [
       {
-        url: '/images/hero-bg.png',
+        url: '/images/dta-logo.svg',
         width: 1200,
         height: 630,
-        alt: 'Darbhanga Taekwondo Academy Training',
+        alt: 'Darbhanga Taekwondo Academy Logo',
       },
     ],
     locale: 'en_IN',
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     images: ['/images/hero-bg.png'],
   },
   alternates: {
-    canonical: 'https://darbhanga-taekwondo.com',
+    canonical: 'https://darbhangataekwondo.fit',
   },
   category: 'Sports & Fitness',
 }
@@ -100,7 +100,7 @@ export default function RootLayout({
               name: 'Darbhanga Taekwondo Academy',
               description:
                 'Professional taekwondo training center in Darbhanga, Bihar offering self defence, discipline and fitness training.',
-              url: 'https://darbhanga-taekwondo.com',
+              url: 'https://darbhangataekwondo.fit',
               telephone: '+918226856261',
               address: {
                 '@type': 'PostalAddress',

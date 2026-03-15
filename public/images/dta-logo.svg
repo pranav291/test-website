@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <defs>
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stopColor="#a855f7" /> 
+      <stop offset="100%" stopColor="#7e22ce" /> 
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stopColor="#ffffff" />
+      <stop offset="100%" stopColor="#e9d5ff" /> 
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" fill="#09090b" rx="40" />
+  <circle cx="100" cy="100" r="85" stroke="url(#primaryGradient)" strokeWidth="4" />
+  <circle cx="100" cy="100" r="75" stroke="url(#primaryGradient)" strokeWidth="1" strokeDasharray="5 5" opacity="0.5" />
+  <path d="M100 30 L160 55 L150 130 C130 160 100 175 100 175 C100 175 70 160 50 130 L40 55 Z" fill="rgba(168, 85, 247, 0.1)" stroke="url(#primaryGradient)" strokeWidth="2" />
+  <text x="100" y="155" fill="url(#textGradient)" fontSize="32" fontWeight="900" fontFamily="sans-serif" textAnchor="middle" letterSpacing="4">DTA</text>
+  <circle cx="100" cy="30" r="4" fill="#d8b4fe" />
+  <circle cx="40" cy="55" r="3" fill="#d8b4fe" />
+  <circle cx="160" cy="55" r="3" fill="#d8b4fe" />
+  <circle cx="100" cy="175" r="4" fill="#d8b4fe" />
+</svg>

@@ -59,6 +59,7 @@ export function Coach() {
     { textKey: 'testimonials.parent3', nameKey: 'testimonials.parent3Name', roleKey: 'testimonials.parent3Role', stars: 4, color: 'text-pink-400 bg-pink-500/20' },
     { textKey: 'testimonials.student4', nameKey: 'testimonials.student4Name', roleKey: 'testimonials.student4Role', stars: 5, color: 'text-cyan-400 bg-cyan-500/20' },
     { textKey: 'testimonials.student5', nameKey: 'testimonials.student5Name', roleKey: 'testimonials.student5Role', stars: 5, color: 'text-rose-400 bg-rose-500/20' },
+    { textKey: 'testimonials.student6', nameKey: 'testimonials.student6Name', roleKey: 'testimonials.student6Role', stars: 5, color: 'text-emerald-400 bg-emerald-500/20' },
   ]
 
   const container = {
