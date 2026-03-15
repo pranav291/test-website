@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Poppins, Noto_Sans_Devanagari } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
+import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 
 const poppins = Poppins({
@@ -20,19 +20,19 @@ const notoDevanagari = Noto_Sans_Devanagari({
 export const metadata: Metadata = {
   title: 'Darbhanga Taekwondo Academy | Best Martial Arts Training in Darbhanga, Bihar',
   description:
-    'Darbhanga Taekwondo Academy (DTA) offers professional taekwondo training in Darbhanga, Bihar. Learn self defence, discipline, fitness & confidence. Coached by Suraj Raj. Join now — kids & adults welcome!',
+    'Darbhanga Taekwondo Academy (DTA) offers professional taekwondo training in Darbhanga. Serving Bela, Mirzapur, Laheriasarai & nearby areas. Learn self defence, discipline, fitness & confidence. Join our expert coaching team now!',
   keywords: [
     'Taekwondo in Darbhanga',
     'Best Martial Arts Darbhanga',
-    'Darbhanga No.1 Taekwondo',
-    'Karate class near me',
-    'Self Defence Darbhanga',
-    'Kids Martial Arts Bihar',
-    'Suraj Raj Coach Darbhanga',
-    'DTA Darbhanga',
-    'Physical Fitness Darbhanga',
-    'Darbhanga Sports Academy',
-    'Martial Arts Training Bihar'
+    'Taekwondo near Bela Darbhanga',
+    'Martial arts Mirzapur Darbhanga',
+    'Karate class Laheriasarai',
+    'Taekwondo Baheri',
+    'Self Defence Benipatti',
+    'DTA Darbhanga Academy',
+    'Darhanga Taekwondo',
+    'Fitness Darbhanga',
+    'Kids Martial Arts Bihar'
   ],
   authors: [{ name: 'Darbhanga Taekwondo Academy' }],
   creator: 'Darbhanga Taekwondo Academy',
@@ -55,9 +55,9 @@ export const metadata: Metadata = {
     apple: '/images/logo.png',
   },
   openGraph: {
-    title: 'Darbhanga Taekwondo Academy | Best Martial Arts Training',
+    title: 'DTA Darbhanga | Best Taekwondo Academy',
     description:
-      'Professional taekwondo training in Darbhanga, Bihar. Self defence, discipline, fitness & confidence for kids and adults.',
+      'Professional taekwondo training in Darbhanga, Bihar. Providing self defence, fitness & confidence classes for Bela, Mirzapur, and Laheriasarai.',
     url: 'https://darbhanga-taekwondo.com',
     siteName: 'Darbhanga Taekwondo Academy',
     images: [
@@ -89,7 +89,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} ${notoDevanagari.variable}`}>
+    <html lang="en" className={`${poppins.variable} ${notoDevanagari.variable} scroll-smooth`}>
       <head>
         <script
           type="application/ld+json"
@@ -108,6 +108,14 @@ export default function RootLayout({
                 addressRegion: 'Bihar',
                 addressCountry: 'IN',
               },
+              areaServed: [
+                'Darbhanga',
+                'Bela',
+                'Mirzapur',
+                'Laheriasarai',
+                'Baheri',
+                'Benipatti'
+              ],
               geo: {
                 '@type': 'GeoCoordinates',
                 latitude: 26.1542,
@@ -117,20 +125,57 @@ export default function RootLayout({
                 'https://www.instagram.com/kings_of_taekwondo/',
               ],
               sport: 'Taekwondo',
-              openingHoursSpecification: {
-                '@type': 'OpeningHoursSpecification',
-                dayOfWeek: [
-                  'Monday',
-                  'Tuesday',
-                  'Wednesday',
-                  'Thursday',
-                  'Friday',
-                  'Saturday',
-                ],
-                opens: '06:00',
-                closes: '20:00',
-              },
+              openingHoursSpecification: [
+                {
+                  '@type': 'OpeningHoursSpecification',
+                  dayOfWeek: [
+                    'Monday',
+                    'Tuesday',
+                    'Wednesday',
+                    'Thursday',
+                    'Friday',
+                    'Saturday'
+                  ],
+                  opens: '16:00',
+                  closes: '18:00',
+                }
+              ],
             }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'FAQPage',
+              mainEntity: [
+                {
+                  '@type': 'Question',
+                  name: 'What age group can join DTA?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Children aged 5 years and above can join. We have separate batches for kids (5-12), teenagers (13-17), and adults (18+).'
+                  }
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What are the class timings?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Classes are held Monday to Saturday from 4:00 PM to 6:00 PM. Sunday is closed.'
+                  }
+                },
+                {
+                  '@type': 'Question',
+                  name: 'What is the monthly fee?',
+                  acceptedAnswer: {
+                    '@type': 'Answer',
+                    text: 'Monthly fee is just ₹500. Admission fee is ₹500 (one time) and uniform costs ₹550 to ₹1000.'
+                  }
+                }
+              ]
+            })
           }}
         />
       </head>

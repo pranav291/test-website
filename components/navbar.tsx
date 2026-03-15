@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/app/language-context'
 import { getTranslation } from '@/lib/translations'
 import { HiMenuAlt3, HiX, HiTranslate } from 'react-icons/hi'
+import { DTALogo } from '@/components/logo'
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -49,9 +50,7 @@ export function Navbar() {
           <div className="flex justify-between items-center">
             {/* Logo */}
             <a href="#home" className="flex items-center gap-3 group">
-              <div className="relative w-10 h-10 md:w-12 md:h-12 overflow-hidden rounded-full border border-white/10 group-hover:border-primary/50 transition-colors">
-                <Image src="/images/logo.png" alt="DTA Logo" fill className="object-cover" />
-              </div>
+              <DTALogo size={40} className="md:w-[48px] md:h-[48px] border border-white/10 group-hover:border-primary/50 transition-colors rounded-full" />
               <div className="flex flex-col">
                 <span className="text-base sm:text-lg md:text-xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
                   Darbhanga
