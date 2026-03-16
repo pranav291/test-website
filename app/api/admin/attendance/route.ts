@@ -8,6 +8,17 @@ export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const studentId = searchParams.get('studentId')
   const date = searchParams.get('date') // YYYY-MM-DD
+  const startDate = searchParams.get('startDate') // YYYY-MM-DD
+  const endDate = searchParams.get('endDate') // YYYY-MM-DD
+
+  if (startDate && endDate) {
+    const start = new Date(startDate)
+    start.setHours(0, 0, 0, 0)
+    const end = new Date(endDate)
+    end.setHours(23, 59, 59, 999)
+    const records = await Attendance.find({ date: { $gte: start, $lte: end } }).populate('studentId', 'name belt batch')
+    return NextResponse.json(records)
+  }
 
   if (date) {
     const start = new Date(date)

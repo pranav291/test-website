@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { connectDB } from '@/lib/mongodb'
 import { Student } from '@/lib/models/Student'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   await connectDB()
   const students = await Student.find().sort({ createdAt: -1 })

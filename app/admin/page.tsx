@@ -8,6 +8,8 @@ import {
 } from 'lucide-react'
 import { IMessage } from '@/lib/models/Message'
 import { IGalleryImage } from '@/lib/models/GalleryImage'
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
 
 type Belt = 'white' | 'yellow' | 'green' | 'blue' | 'red' | 'black'
 type Batch = 'kids' | 'beginner' | 'advanced' | 'competition'
@@ -133,6 +135,11 @@ export default function AdminDashboard() {
   const [attendanceDate, setAttendanceDate] = useState(new Date().toISOString().split('T')[0])
   const [attendanceMap, setAttendanceMap] = useState<Record<string, boolean>>({})
   const [savingAttendance, setSavingAttendance] = useState(false)
+  
+  const [exportStartDate, setExportStartDate] = useState(new Date().toISOString().split('T')[0])
+  const [exportEndDate, setExportEndDate] = useState(new Date().toISOString().split('T')[0])
+  const [exportingPdf, setExportingPdf] = useState(false)
+  const [showExportModal, setShowExportModal] = useState(false)
 
   useEffect(() => { fetchAll() }, [])
   useEffect(() => { if (tab === 'attendance') fetchAttendance() }, [tab, attendanceDate]) // eslint-disable-line
@@ -165,6 +172,48 @@ export default function AdminDashboard() {
     const records = students.filter(s => s.active).map(s => ({ studentId: s._id, present: !!attendanceMap[s._id] }))
     await fetch('/api/admin/attendance', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ date: attendanceDate, records }) })
     setSavingAttendance(false)
+  }
+
+  const exportAttendancePDF = async () => {
+    setExportingPdf(true)
+    try {
+      const res = await fetch(`/api/admin/attendance?startDate=${exportStartDate}&endDate=${exportEndDate}`)
+      if (!res.ok) throw new Error('Failed to fetch attendance data')
+      const records: any[] = await res.json()
+      
+      const doc = new jsPDF()
+      doc.setFontSize(18)
+      doc.text('Attendance Report', 14, 22)
+      doc.setFontSize(11)
+      doc.setTextColor(100)
+      doc.text(`From: ${exportStartDate} To: ${exportEndDate}`, 14, 30)
+      
+      const tableData = records.map(r => [
+        new Date(r.date).toLocaleDateString('en-IN'),
+        r.studentId?.name || 'Unknown',
+        r.studentId?.batch || '-',
+        r.studentId?.belt || '-',
+        r.present ? 'Present' : 'Absent'
+      ])
+      
+      autoTable(doc, {
+        startY: 36,
+        head: [['Date', 'Student Name', 'Batch', 'Belt', 'Status']],
+        body: tableData,
+        theme: 'striped',
+        headStyles: { fillColor: [249, 115, 22] }, // orange-500
+        styles: { fontSize: 9 },
+        alternateRowStyles: { fillColor: [245, 245, 245] }
+      })
+      
+      doc.save(`Attendance_${exportStartDate}_to_${exportEndDate}.pdf`)
+      setShowExportModal(false)
+    } catch (error) {
+      console.error(error)
+      alert("Error exporting PDF. Check console.")
+    } finally {
+      setExportingPdf(false)
+    }
   }
 
   const markRead = async (id: string, cur: boolean) => {
@@ -618,9 +667,14 @@ export default function AdminDashboard() {
       {tab === 'attendance' && (
         <div className="space-y-3">
           <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/6 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
-            <div>
-              <label className={lbl}>Date</label>
-              <input type="date" value={attendanceDate} onChange={e => setAttendanceDate(e.target.value)} className="px-3 py-2 bg-white/5 border border-white/8 rounded-xl text-sm text-white outline-none focus:border-orange-500/50 transition-colors" />
+            <div className="flex gap-3 items-end">
+              <div>
+                <label className={lbl}>Date</label>
+                <input type="date" value={attendanceDate} onChange={e => setAttendanceDate(e.target.value)} className="px-3 py-2 bg-white/5 border border-white/8 rounded-xl text-sm text-white outline-none focus:border-orange-500/50 transition-colors" />
+              </div>
+              <button onClick={() => setShowExportModal(true)} className="px-4 py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-xl text-sm font-semibold transition-colors">
+                Export PDF
+              </button>
             </div>
             <div className="flex items-center gap-4">
               <div className="text-sm">
@@ -660,6 +714,33 @@ export default function AdminDashboard() {
               </div>
             ))}
           </div>
+
+          {/* Export Modal */}
+          {showExportModal && (
+            <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4">
+              <div className="bg-[#1a1a1a] w-full max-w-sm rounded-2xl border border-white/8">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-white/8">
+                  <h3 className="font-bold text-white">Export Attendance</h3>
+                  <button onClick={() => setShowExportModal(false)} className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/8 transition-colors">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                <div className="p-5 space-y-4">
+                  <div>
+                    <label className={lbl}>Start Date</label>
+                    <input type="date" value={exportStartDate} onChange={e => setExportStartDate(e.target.value)} className={inp} />
+                  </div>
+                  <div>
+                    <label className={lbl}>End Date</label>
+                    <input type="date" value={exportEndDate} onChange={e => setExportEndDate(e.target.value)} className={inp} />
+                  </div>
+                  <button onClick={exportAttendancePDF} disabled={exportingPdf} className="w-full py-2.5 bg-orange-500 hover:bg-orange-500/90 text-white rounded-xl text-sm font-semibold disabled:opacity-40 transition-colors mt-2">
+                    {exportingPdf ? 'Generating...' : 'Download PDF'}
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
 

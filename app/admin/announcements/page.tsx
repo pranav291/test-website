@@ -3,9 +3,9 @@
 import { useState, useEffect } from 'react'
 import { Trash2, Plus, X, Bell, BellOff, Megaphone } from 'lucide-react'
 
-interface Ann { _id: string; text: string; type: 'info' | 'warning' | 'success'; active: boolean; expiresAt: string | null }
+interface Ann { _id: string; title?: string; text: string; linkUrl?: string; type: 'info' | 'warning' | 'success'; active: boolean; expiresAt: string | null }
 
-const blank = { text: '', type: 'info' as const, active: true, expiresAt: '' }
+const blank = { title: '', text: '', linkUrl: '', type: 'info' as const, active: true, expiresAt: '' }
 const inp = 'w-full px-3 py-2.5 bg-[#222] border border-white/8 rounded-xl text-sm outline-none focus:border-orange-500/50 text-white placeholder-white/20 transition-colors'
 const lbl = 'block text-xs font-medium text-white/40 mb-1.5'
 
@@ -88,8 +88,16 @@ export default function AnnouncementsAdminPage() {
             </div>
             <form onSubmit={save} className="p-5 space-y-4">
               <div>
-                <label className={lbl}>Message</label>
+                <label className={lbl}>Title (Optional)</label>
+                <input type="text" value={form.title} onChange={e => setForm({ ...form, title: e.target.value })} className={inp} placeholder="e.g. Holiday Notice" />
+              </div>
+              <div>
+                <label className={lbl}>Message *</label>
                 <textarea required rows={3} value={form.text} onChange={e => setForm({ ...form, text: e.target.value })} className={`${inp} resize-none`} placeholder="e.g. Academy will be closed on 26 March — Happy Holi!" />
+              </div>
+              <div>
+                <label className={lbl}>Action Link URL (Optional)</label>
+                <input type="url" value={form.linkUrl} onChange={e => setForm({ ...form, linkUrl: e.target.value })} className={inp} placeholder="https://..." />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
@@ -148,7 +156,9 @@ export default function AnnouncementsAdminPage() {
                         <span className={`text-[10px] font-bold uppercase tracking-wider ${c.text}`}>{c.label}</span>
                         {!a.active && <span className="text-[10px] text-white/25 font-medium">• Inactive</span>}
                       </div>
+                      {a.title && <p className="text-sm font-semibold text-white">{a.title}</p>}
                       <p className="text-sm text-white/80 leading-relaxed">{a.text}</p>
+                      {a.linkUrl && <a href={a.linkUrl} target="_blank" rel="noreferrer" className="text-xs text-orange-400 hover:underline mt-1 block">{a.linkUrl}</a>}
                       {a.expiresAt && (
                         <p className="text-[10px] text-white/30 mt-1.5">
                           Expires: {new Date(a.expiresAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
