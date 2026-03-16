@@ -17,38 +17,7 @@ export function Coach() {
     { icon: FaCertificate, value: 'Black Belt', label: 'Certification' },
   ]
 
-  const team = [
-    {
-      name: 'Suraj Raj',
-      roleKey: 'team.director',
-      descKey: 'team.directorDesc',
-      icon: FaUserTie,
-      color: 'from-amber-500/20 to-amber-600/10',
-      borderColor: 'border-amber-500/30',
-      iconColor: 'text-amber-400',
-      badgeColor: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-    },
-    {
-      name: 'Harshit',
-      roleKey: 'team.headCoach',
-      descKey: 'team.headCoachDesc',
-      icon: MdSportsMartialArts,
-      color: 'from-primary/20 to-primary/10',
-      borderColor: 'border-primary/30',
-      iconColor: 'text-primary',
-      badgeColor: 'bg-primary/10 text-primary border-primary/20',
-    },
-    {
-      name: 'Saurav',
-      roleKey: 'team.seniorCoach',
-      descKey: 'team.seniorCoachDesc',
-      icon: FaChalkboardTeacher,
-      color: 'from-blue-500/20 to-blue-600/10',
-      borderColor: 'border-blue-500/30',
-      iconColor: 'text-blue-400',
-      badgeColor: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-    },
-  ]
+  // Owner only
 
   const testimonials = [
     { textKey: 'testimonials.student1', nameKey: 'testimonials.student1Name', roleKey: 'testimonials.student1Role', stars: 5, color: 'text-primary bg-primary/20' },
@@ -94,57 +63,37 @@ export function Coach() {
           className="text-center mb-20"
         >
           <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">
-            Our People
+            Our Coach
           </span>
           <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white">
-            {getTranslation('team.title', language)}
+            Meet The Coach
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
         </motion.div>
 
-        {/* Team Cards */}
+        {/* Owner Card */}
         <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-50px" }}
-          className="grid md:grid-cols-3 gap-6 md:gap-8 mb-16 max-w-5xl mx-auto"
+          transition={{ duration: 0.6 }}
+          className="flex justify-center mb-16"
         >
-          {team.map((member, index) => {
-            const Icon = member.icon
-            return (
-              <motion.div
-                key={index}
-                variants={item}
-                className={`glass-minimal rounded-3xl p-8 relative group hover:bg-white/5 transition-all duration-500 overflow-hidden border ${member.borderColor}`}
-              >
-                {/* Background glow */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${member.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                
-                <div className="relative z-10">
-                  {/* Icon */}
-                  <div className={`w-16 h-16 rounded-2xl bg-background flex items-center justify-center mb-6 border border-white/10 group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className={`w-8 h-8 ${member.iconColor}`} />
-                  </div>
-                  
-                  {/* Name */}
-                  <h3 className="text-2xl font-black text-white mb-2 tracking-tight">
-                    {member.name}
-                  </h3>
-                  
-                  {/* Role Badge */}
-                  <span className={`inline-block text-xs font-bold px-3 py-1.5 rounded-full border uppercase tracking-wider mb-4 ${member.badgeColor}`}>
-                    {getTranslation(member.roleKey, language)}
-                  </span>
-                  
-                  {/* Description */}
-                  <p className="text-muted-foreground leading-relaxed font-light text-sm">
-                    {getTranslation(member.descKey, language)}
-                  </p>
-                </div>
-              </motion.div>
-            )
-          })}
+          <div className="glass-minimal rounded-3xl p-10 relative group hover:bg-white/5 transition-all duration-500 overflow-hidden border border-amber-500/30 max-w-sm w-full text-center">
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-amber-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="relative z-10">
+              <div className="w-20 h-20 rounded-full bg-background flex items-center justify-center mb-6 border border-amber-500/30 mx-auto group-hover:scale-110 transition-transform duration-300">
+                <FaUserTie className="w-9 h-9 text-amber-400" />
+              </div>
+              <h3 className="text-3xl font-black text-white mb-2 tracking-tight">Suraj Raj</h3>
+              <span className="inline-block text-xs font-bold px-3 py-1.5 rounded-full border uppercase tracking-wider mb-4 bg-amber-500/10 text-amber-400 border-amber-500/20">
+                {getTranslation('team.director', language)}
+              </span>
+              <p className="text-muted-foreground leading-relaxed font-light text-sm">
+                {getTranslation('team.directorDesc', language)}
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* Stats Grid */}

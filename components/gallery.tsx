@@ -9,12 +9,15 @@ import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { IGalleryImage } from '@/lib/models/GalleryImage'
 
 const DEFAULT_IMAGES = [
-  { url: '/images/img1.jpg', alt: 'Taekwondo Training', span: 'md:col-span-2 md:row-span-2' },
-  { url: '/images/img2.jpg', alt: 'Students Practicing Kicks', span: '' },
-  { url: '/images/gallery-training.png', alt: 'Group Training Session', span: '' },
-  { url: '/images/img3.jpg', alt: 'Belt Promotion Ceremony', span: '' },
-  { url: '/images/gallery-competition.png', alt: 'Competition', span: 'md:col-span-2' },
-  { url: '/images/img4.jpg', alt: 'Academy Group Photo', span: '' },
+  { url: '/images/tk1.jpg', alt: 'Image 1', span: 'md:col-span-2 md:row-span-2' },
+  { url: '/images/tk2.jpg', alt: 'Image 2', span: '' },
+  { url: '/images/tk3.jpg', alt: 'Image 3', span: '' },
+  { url: '/images/tk4.jpg', alt: 'Image 4', span: '' },
+  { url: '/images/tk5.jpg', alt: 'Image 5', span: 'md:col-span-2' },
+  { url: '/images/tk6.jpg', alt: 'Image 6', span: '' },
+  { url: '/images/tk7.jpg', alt: 'Image 7', span: '' },
+  { url: '/images/tk8.jpg', alt: 'Image 8', span: 'md:col-span-2' },
+  { url: '/images/tk9.jpg', alt: 'Image 9', span: '' },
 ]
 
 export function Gallery() {

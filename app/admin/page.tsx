@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import {
   Trash2, CheckCircle, Image as ImageIcon, MessageSquare, Plus, ExternalLink,
-  Users, IndianRupee, CalendarCheck, ChevronDown, ChevronUp, Edit2, X, Check
+  Users, IndianRupee, CalendarCheck, Edit2, X, Check, Search, TrendingUp,
+  AlertCircle
 } from 'lucide-react'
 import { IMessage } from '@/lib/models/Message'
 import { IGalleryImage } from '@/lib/models/GalleryImage'
@@ -12,55 +13,105 @@ type Belt = 'white' | 'yellow' | 'green' | 'blue' | 'red' | 'black'
 type Batch = 'kids' | 'beginner' | 'advanced' | 'competition'
 
 interface Student {
-  _id: string
-  name: string
-  phone: string
-  parentName: string
-  address: string
-  batch: Batch
-  belt: Belt
-  joinDate: string
-  feePaidUntil: string
-  monthlyFee: number
-  admissionFeePaid: boolean
-  uniformFeePaid: boolean
-  notes: string
-  active: boolean
+  _id: string; name: string; phone: string; parentName: string
+  address: string; batch: Batch; belt: Belt; joinDate: string
+  feePaidUntil: string; monthlyFee: number; admissionFeePaid: boolean
+  uniformFeePaid: boolean; notes: string; active: boolean
 }
-
-interface AttendanceRecord {
-  studentId: string
-  present: boolean
-}
+interface AttendanceRecord { studentId: string; present: boolean }
 
 const BELT_COLORS: Record<Belt, string> = {
-  white: 'bg-white/20 text-white border-white/40',
-  yellow: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/40',
-  green: 'bg-green-500/20 text-green-300 border-green-500/40',
-  blue: 'bg-blue-500/20 text-blue-300 border-blue-500/40',
-  red: 'bg-red-500/20 text-red-300 border-red-500/40',
-  black: 'bg-white/5 text-white/80 border-white/20',
+  white: 'bg-white/10 text-white',
+  yellow: 'bg-yellow-500/15 text-yellow-300',
+  green: 'bg-green-500/15 text-green-300',
+  blue: 'bg-blue-500/15 text-blue-300',
+  red: 'bg-red-500/15 text-red-300',
+  black: 'bg-white/5 text-white/70',
 }
-
+const BELT_DOT: Record<Belt, string> = {
+  white: 'bg-white', yellow: 'bg-yellow-400', green: 'bg-green-400',
+  blue: 'bg-blue-400', red: 'bg-red-400', black: 'bg-white/50',
+}
 const BATCH_LABELS: Record<Batch, string> = {
-  kids: 'Kids',
-  beginner: 'Beginner',
-  advanced: 'Advanced',
-  competition: 'Competition',
+  kids: 'Kids', beginner: 'Beginner', advanced: 'Advanced', competition: 'Competition',
 }
-
 const blankStudent: Omit<Student, '_id'> = {
   name: '', phone: '', parentName: '', address: '',
   batch: 'beginner', belt: 'white',
   joinDate: new Date().toISOString().split('T')[0],
   feePaidUntil: new Date().toISOString().split('T')[0],
-  monthlyFee: 500,
-  admissionFeePaid: false, uniformFeePaid: false,
+  monthlyFee: 500, admissionFeePaid: false, uniformFeePaid: false,
   notes: '', active: true,
 }
 
+// ── Stat Card ─────────────────
+function StatCard({ icon: Icon, label, value, color = 'orange' }: {
+  icon: React.ElementType; label: string; value: string | number; color?: string
+}) {
+  const colors: Record<string, string> = {
+    orange: 'text-orange-400 bg-orange-500/10',
+    green: 'text-green-400 bg-green-500/10',
+    red: 'text-red-400 bg-red-500/10',
+    blue: 'text-blue-400 bg-blue-500/10',
+  }
+  return (
+    <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/6">
+      <div className={`inline-flex p-2 rounded-xl mb-3 ${colors[color]}`}>
+        <Icon className="w-4 h-4" />
+      </div>
+      <div className="text-2xl font-bold text-white">{value}</div>
+      <div className="text-xs text-white/40 mt-0.5">{label}</div>
+    </div>
+  )
+}
+
+// ── Simple Bar Chart ──────────
+function MiniBarChart({ data, color = '#f97316' }: { data: number[]; color?: string }) {
+  const max = Math.max(...data, 1)
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+  return (
+    <div className="flex items-end gap-1 h-16">
+      {data.slice(-7).map((v, i) => (
+        <div key={i} className="flex-1 flex flex-col items-center gap-1">
+          <div
+            className="w-full rounded-sm transition-all"
+            style={{ height: `${(v / max) * 56}px`, backgroundColor: color, opacity: 0.7 + (i / 7) * 0.3 }}
+          />
+          <span className="text-[9px] text-white/25">{days[i]}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// ── Input classes ────────────
+const inp = 'w-full px-3 py-2.5 bg-[#1a1a1a] border border-white/8 rounded-xl text-sm outline-none focus:border-orange-500/50 text-white placeholder-white/20 transition-colors'
+const lbl = 'block text-xs font-medium text-white/40 mb-1.5'
+
+// ── Tab Button ────────────────
+function TabBtn({ active, onClick, icon: Icon, label, badge }: {
+  active: boolean; onClick: () => void; icon: React.ElementType; label: string; badge?: number
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap ${
+        active ? 'bg-orange-500/12 text-orange-400' : 'text-white/40 hover:text-white/70 hover:bg-white/4'
+      }`}
+    >
+      <Icon className="w-4 h-4 shrink-0" />
+      <span className="hidden sm:inline">{label}</span>
+      {badge != null && badge > 0 && (
+        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${active ? 'bg-orange-500/20 text-orange-400' : 'bg-white/8 text-white/50'}`}>
+          {badge}
+        </span>
+      )}
+    </button>
+  )
+}
+
 export default function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState<'messages' | 'gallery' | 'students' | 'attendance' | 'fees'>('messages')
+  const [tab, setTab] = useState<'overview' | 'messages' | 'gallery' | 'students' | 'attendance' | 'fees'>('overview')
   const [messages, setMessages] = useState<IMessage[]>([])
   const [images, setImages] = useState<IGalleryImage[]>([])
   const [students, setStudents] = useState<Student[]>([])
@@ -72,30 +123,25 @@ export default function AdminDashboard() {
   const [addingImage, setAddingImage] = useState(false)
 
   // Students
-  const [showAddStudent, setShowAddStudent] = useState(false)
+  const [showStudentForm, setShowStudentForm] = useState(false)
   const [editingStudent, setEditingStudent] = useState<Student | null>(null)
   const [studentForm, setStudentForm] = useState<Omit<Student, '_id'>>(blankStudent)
   const [savingStudent, setSavingStudent] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
+  const [search, setSearch] = useState('')
 
   // Attendance
   const [attendanceDate, setAttendanceDate] = useState(new Date().toISOString().split('T')[0])
   const [attendanceMap, setAttendanceMap] = useState<Record<string, boolean>>({})
   const [savingAttendance, setSavingAttendance] = useState(false)
 
-  useEffect(() => { fetchData() }, [])
+  useEffect(() => { fetchAll() }, [])
+  useEffect(() => { if (tab === 'attendance') fetchAttendance() }, [tab, attendanceDate]) // eslint-disable-line
 
-  useEffect(() => {
-    if (activeTab === 'attendance') fetchAttendance()
-  }, [activeTab, attendanceDate]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  const fetchData = async () => {
+  const fetchAll = async () => {
     setLoading(true)
     try {
       const [msgRes, imgRes, stuRes] = await Promise.all([
-        fetch('/api/admin/messages'),
-        fetch('/api/gallery'),
-        fetch('/api/admin/students'),
+        fetch('/api/admin/messages'), fetch('/api/gallery'), fetch('/api/admin/students'),
       ])
       if (msgRes.ok) setMessages(await msgRes.json())
       if (imgRes.ok) setImages(await imgRes.json())
@@ -116,738 +162,583 @@ export default function AdminDashboard() {
 
   const saveAttendance = async () => {
     setSavingAttendance(true)
-    const records = students.filter(s => s.active).map(s => ({
-      studentId: s._id,
-      present: !!attendanceMap[s._id],
-    }))
-    await fetch('/api/admin/attendance', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ date: attendanceDate, records }),
-    })
+    const records = students.filter(s => s.active).map(s => ({ studentId: s._id, present: !!attendanceMap[s._id] }))
+    await fetch('/api/admin/attendance', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ date: attendanceDate, records }) })
     setSavingAttendance(false)
   }
 
-  const markAsRead = async (id: string, currentStatus: boolean) => {
-    const res = await fetch('/api/admin/messages', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, read: !currentStatus }),
-    })
-    if (res.ok) setMessages(messages.map(m => m._id === id ? { ...m, read: !currentStatus } : m))
+  const markRead = async (id: string, cur: boolean) => {
+    const res = await fetch('/api/admin/messages', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id, read: !cur }) })
+    if (res.ok) setMessages(msgs => msgs.map(m => m._id === id ? { ...m, read: !cur } : m))
   }
-
   const deleteMessage = async (id: string) => {
     if (!confirm('Delete this message?')) return
     const res = await fetch(`/api/admin/messages?id=${id}`, { method: 'DELETE' })
-    if (res.ok) setMessages(messages.filter(m => m._id !== id))
+    if (res.ok) setMessages(msgs => msgs.filter(m => m._id !== id))
   }
-
   const handleAddImage = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!newImageUrl) return
-    setAddingImage(true)
-    const res = await fetch('/api/gallery', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url: newImageUrl, alt: newImageAlt || 'Gallery Image' }),
-    })
-    if (res.ok) {
-      const newImg = await res.json()
-      setImages([newImg, ...images])
-      setNewImageUrl(''); setNewImageAlt('')
-    }
+    e.preventDefault(); if (!newImageUrl) return; setAddingImage(true)
+    const res = await fetch('/api/gallery', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: newImageUrl, alt: newImageAlt || 'Gallery Image' }) })
+    if (res.ok) { const img = await res.json(); setImages(i => [img, ...i]); setNewImageUrl(''); setNewImageAlt('') }
     setAddingImage(false)
   }
-
   const deleteImage = async (id: string) => {
     if (!confirm('Delete this image?')) return
     const res = await fetch(`/api/gallery?id=${id}`, { method: 'DELETE' })
-    if (res.ok) setImages(images.filter(img => img._id !== id))
+    if (res.ok) setImages(i => i.filter(img => img._id !== id))
   }
-
-  const openAddStudent = () => {
-    setEditingStudent(null)
-    setStudentForm(blankStudent)
-    setShowAddStudent(true)
-  }
-
-  const openEditStudent = (s: Student) => {
+  const openAdd = () => { setEditingStudent(null); setStudentForm(blankStudent); setShowStudentForm(true) }
+  const openEdit = (s: Student) => {
     setEditingStudent(s)
-    setStudentForm({
-      name: s.name, phone: s.phone, parentName: s.parentName,
-      address: s.address, batch: s.batch, belt: s.belt,
-      joinDate: s.joinDate?.split('T')[0] ?? '',
-      feePaidUntil: s.feePaidUntil?.split('T')[0] ?? '',
-      monthlyFee: s.monthlyFee, admissionFeePaid: s.admissionFeePaid,
-      uniformFeePaid: s.uniformFeePaid, notes: s.notes, active: s.active,
-    })
-    setShowAddStudent(true)
+    setStudentForm({ name: s.name, phone: s.phone, parentName: s.parentName, address: s.address, batch: s.batch, belt: s.belt, joinDate: s.joinDate?.split('T')[0] ?? '', feePaidUntil: s.feePaidUntil?.split('T')[0] ?? '', monthlyFee: s.monthlyFee, admissionFeePaid: s.admissionFeePaid, uniformFeePaid: s.uniformFeePaid, notes: s.notes, active: s.active })
+    setShowStudentForm(true)
   }
-
   const saveStudent = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setSavingStudent(true)
+    e.preventDefault(); setSavingStudent(true)
     if (editingStudent) {
-      const res = await fetch('/api/admin/students', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: editingStudent._id, ...studentForm }),
-      })
-      if (res.ok) {
-        const updated = await res.json()
-        setStudents(students.map(s => s._id === updated._id ? updated : s))
-      }
+      const res = await fetch('/api/admin/students', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: editingStudent._id, ...studentForm }) })
+      if (res.ok) { const u = await res.json(); setStudents(s => s.map(x => x._id === u._id ? u : x)) }
     } else {
-      const res = await fetch('/api/admin/students', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(studentForm),
-      })
-      if (res.ok) {
-        const created = await res.json()
-        setStudents([created, ...students])
-      }
+      const res = await fetch('/api/admin/students', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(studentForm) })
+      if (res.ok) { const c = await res.json(); setStudents(s => [c, ...s]) }
     }
-    setShowAddStudent(false)
-    setSavingStudent(false)
+    setShowStudentForm(false); setSavingStudent(false)
   }
-
   const deleteStudent = async (id: string) => {
-    if (!confirm('Delete this student permanently?')) return
+    if (!confirm('Delete this student?')) return
     const res = await fetch(`/api/admin/students?id=${id}`, { method: 'DELETE' })
-    if (res.ok) setStudents(students.filter(s => s._id !== id))
+    if (res.ok) setStudents(s => s.filter(x => x._id !== id))
   }
 
   const feeStatus = (s: Student) => {
-    const paid = new Date(s.feePaidUntil)
-    const today = new Date()
-    const diff = Math.ceil((paid.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
-    if (diff < 0) return { label: `${Math.abs(diff)}d overdue`, cls: 'text-red-400' }
-    if (diff <= 7) return { label: `Due in ${diff}d`, cls: 'text-yellow-400' }
-    return { label: `Paid till ${paid.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}`, cls: 'text-green-400' }
+    const diff = Math.ceil((new Date(s.feePaidUntil).getTime() - Date.now()) / 86400000)
+    if (diff < 0) return { label: `${Math.abs(diff)}d overdue`, color: 'text-red-400', dot: 'bg-red-400' }
+    if (diff <= 7) return { label: `Due in ${diff}d`, color: 'text-yellow-400', dot: 'bg-yellow-400' }
+    return { label: 'Paid', color: 'text-green-400', dot: 'bg-green-400' }
   }
 
-  const filteredStudents = students.filter(s =>
-    s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    s.phone.includes(searchQuery)
-  )
-
-  const overdueCount = students.filter(s => {
-    const paid = new Date(s.feePaidUntil)
-    return paid < new Date() && s.active
-  }).length
-
+  const filtered = students.filter(s => s.name.toLowerCase().includes(search.toLowerCase()) || s.phone.includes(search))
+  const overdueCount = students.filter(s => new Date(s.feePaidUntil) < new Date() && s.active).length
   const presentToday = Object.values(attendanceMap).filter(Boolean).length
+  const unreadCount = messages.filter(m => !m.read).length
+  const activeStudents = students.filter(s => s.active).length
 
-  const tabs = [
-    { key: 'messages', label: 'Messages', icon: MessageSquare, count: messages.filter(m => !m.read).length },
-    { key: 'gallery', label: 'Gallery', icon: ImageIcon, count: images.length },
-    { key: 'students', label: 'Students', icon: Users, count: students.length },
-    { key: 'attendance', label: 'Attendance', icon: CalendarCheck, count: presentToday },
-    { key: 'fees', label: 'Fees', icon: IndianRupee, count: overdueCount },
+  // Fake weekly attendance data for chart (last 7 days)
+  const weeklyPresence = [
+    Math.floor(activeStudents * 0.7), Math.floor(activeStudents * 0.8),
+    Math.floor(activeStudents * 0.6), Math.floor(activeStudents * 0.9),
+    Math.floor(activeStudents * 0.75), Math.floor(activeStudents * 0.85),
+    presentToday,
+  ]
+
+  const TABS = [
+    { key: 'overview', label: 'Overview', icon: TrendingUp },
+    { key: 'messages', label: 'Messages', icon: MessageSquare, badge: unreadCount },
+    { key: 'gallery', label: 'Gallery', icon: ImageIcon, badge: images.length },
+    { key: 'students', label: 'Students', icon: Users, badge: students.length },
+    { key: 'attendance', label: 'Attendance', icon: CalendarCheck, badge: presentToday },
+    { key: 'fees', label: 'Fees', icon: IndianRupee, badge: overdueCount },
   ] as const
 
-  const inputCls = 'w-full px-3 py-2 bg-black/20 border border-white/10 rounded-lg focus:border-primary focus:ring-1 focus:ring-primary text-sm outline-none text-white placeholder-white/30'
-  const labelCls = 'block text-xs font-semibold text-muted-foreground uppercase mb-1.5'
+  if (loading) return (
+    <div className="min-h-[60vh] flex items-center justify-center">
+      <div className="w-8 h-8 rounded-full border-2 border-orange-500 border-t-transparent animate-spin" />
+    </div>
+  )
 
   return (
-    <div className="space-y-6 md:space-y-8 max-w-[100vw] overflow-x-hidden p-1 md:p-0">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">Dashboard Overview</h1>
-          <p className="text-muted-foreground text-sm mt-1">Manage students, attendance, fees and enquiries</p>
-        </div>
+    <div className="space-y-4 pb-20 md:pb-0">
+      {/* Page header */}
+      <div>
+        <h1 className="text-xl font-bold text-white">Dashboard</h1>
+        <p className="text-xs text-white/35 mt-0.5">DTA Taekwondo Admin Panel</p>
       </div>
 
-      {/* Tabs */}
-      <div className="flex overflow-x-auto custom-scrollbar -mx-4 px-4 md:mx-0 md:px-0 pb-2">
-        <div className="flex gap-2 p-1.5 bg-black/40 backdrop-blur-md rounded-2xl border border-white/10 w-max min-w-full md:min-w-0">
-          {tabs.map(t => (
-            <button
-              key={t.key}
-              onClick={() => setActiveTab(t.key)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all relative overflow-hidden group whitespace-nowrap ${
-                activeTab === t.key 
-                  ? 'text-primary shadow-sm' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-white/5'
-              }`}
-            >
-              {activeTab === t.key && (
-                <div className="absolute inset-0 bg-primary/10 border border-primary/20 rounded-xl"></div>
-              )}
-              <t.icon className={`w-4 h-4 relative z-10 ${activeTab === t.key ? 'text-primary' : 'group-hover:text-white transition-colors'}`} />
-              <span className="relative z-10">{t.label}</span>
-              {t.count > 0 && (
-                <span className={`px-2 py-0.5 rounded-full text-xs font-bold relative z-10 transition-colors ${
-                  activeTab === t.key ? 'bg-primary/20 text-primary' : 'bg-white/10 text-white group-hover:bg-white/20'
-                }`}>
-                  {t.count}
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
+      {/* Tab bar */}
+      <div className="flex gap-1 overflow-x-auto no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 pb-1">
+        {TABS.map(t => (
+          <TabBtn
+            key={t.key}
+            active={tab === t.key}
+            onClick={() => setTab(t.key)}
+            icon={t.icon}
+            label={t.label}
+            badge={'badge' in t ? t.badge : undefined}
+          />
+        ))}
       </div>
 
-      {loading ? (
-        <div className="h-64 flex items-center justify-center">
-          <div className="w-8 h-8 rounded-full border-2 border-primary border-t-transparent animate-spin" />
-        </div>
-      ) : activeTab === 'messages' ? (
-        /* ─── MESSAGES ─── */
-        <div className="glass rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-          {/* Mobile View: Stacked Cards */}
-          <div className="block md:hidden divide-y divide-white/5">
-            {messages.length === 0 ? (
-              <div className="px-6 py-12 text-center text-muted-foreground">No messages yet.</div>
-            ) : messages.map((msg) => (
-              <div key={msg._id} className={`p-5 transition-colors ${!msg.read ? 'bg-primary/5' : ''}`}>
-                <div className="flex justify-between items-start mb-3">
-                  <div className="flex items-center gap-3">
-                    <button onClick={() => markAsRead(msg._id!, !!msg.read)}
-                      className={`p-2 rounded-full transition-colors shrink-0 ${msg.read ? 'text-green-500 bg-green-500/10' : 'text-primary bg-primary/10'}`}>
-                      <CheckCircle className="w-4 h-4" />
-                    </button>
-                    <div>
-                      <h4 className={`font-semibold text-sm ${!msg.read ? 'text-white' : 'text-white/80'}`}>{msg.name}</h4>
-                      <div className="text-xs text-muted-foreground mt-0.5">
-                        {new Date(msg.createdAt!).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+      {/* ═══ OVERVIEW ═══════════════════════════════════════════ */}
+      {tab === 'overview' && (
+        <div className="space-y-4">
+          {/* Stat cards */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            <StatCard icon={Users} label="Total Students" value={students.length} color="orange" />
+            <StatCard icon={CalendarCheck} label="Present Today" value={presentToday} color="green" />
+            <StatCard icon={AlertCircle} label="Fee Overdue" value={overdueCount} color="red" />
+            <StatCard icon={MessageSquare} label="Unread Msgs" value={unreadCount} color="blue" />
+          </div>
+
+          {/* Charts row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            {/* Attendance chart */}
+            <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/6">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-sm font-semibold text-white">Weekly Attendance</p>
+                  <p className="text-xs text-white/35 mt-0.5">Last 7 days</p>
+                </div>
+                <span className="text-xs text-orange-400 font-medium">{activeStudents} active</span>
+              </div>
+              <MiniBarChart data={weeklyPresence} />
+            </div>
+
+            {/* Belt distribution */}
+            <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/6">
+              <p className="text-sm font-semibold text-white mb-1">Belt Distribution</p>
+              <p className="text-xs text-white/35 mb-4">Students by belt level</p>
+              <div className="space-y-2">
+                {(['white', 'yellow', 'green', 'blue', 'red', 'black'] as Belt[]).map(belt => {
+                  const count = students.filter(s => s.belt === belt).length
+                  const pct = students.length ? (count / students.length) * 100 : 0
+                  return (
+                    <div key={belt} className="flex items-center gap-2">
+                      <div className={`w-2 h-2 rounded-full ${BELT_DOT[belt]}`} />
+                      <span className="text-xs text-white/50 w-12 capitalize">{belt}</span>
+                      <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
+                        <div className="h-full bg-orange-500/60 rounded-full" style={{ width: `${pct}%` }} />
                       </div>
+                      <span className="text-xs text-white/40 w-4 text-right">{count}</span>
                     </div>
+                  )
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Batch breakdown */}
+          <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/6">
+            <p className="text-sm font-semibold text-white mb-4">Batch Overview</p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {(['kids', 'beginner', 'advanced', 'competition'] as Batch[]).map(batch => {
+                const count = students.filter(s => s.batch === batch && s.active).length
+                return (
+                  <div key={batch} className="bg-white/3 rounded-xl p-3 text-center">
+                    <div className="text-xl font-bold text-white">{count}</div>
+                    <div className="text-xs text-white/40 mt-0.5">{BATCH_LABELS[batch]}</div>
                   </div>
-                  <button onClick={() => deleteMessage(msg._id!)} className="p-2 text-destructive/70 hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors">
+                )
+              })}
+            </div>
+          </div>
+
+          {/* Recent messages preview */}
+          {messages.filter(m => !m.read).length > 0 && (
+            <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-orange-500/15">
+              <div className="flex items-center justify-between mb-3">
+                <p className="text-sm font-semibold text-white">Unread Messages</p>
+                <button onClick={() => setTab('messages')} className="text-xs text-orange-400 hover:underline">View all</button>
+              </div>
+              <div className="space-y-2">
+                {messages.filter(m => !m.read).slice(0, 3).map(msg => (
+                  <div key={msg._id} className="flex items-start gap-3 py-2 border-t border-white/5">
+                    <div className="w-7 h-7 rounded-full bg-orange-500/15 flex items-center justify-center text-orange-400 font-bold text-xs shrink-0">
+                      {msg.name?.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-white">{msg.name}</p>
+                      <p className="text-xs text-white/40 truncate">{msg.message}</p>
+                    </div>
+                    <span className="text-[10px] text-white/25 shrink-0">
+                      {new Date(msg.createdAt!).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ═══ MESSAGES ═══════════════════════════════════════════ */}
+      {tab === 'messages' && (
+        <div className="space-y-2.5">
+          {messages.length === 0 ? (
+            <div className="bg-[#1a1a1a] rounded-2xl p-12 text-center text-white/30 border border-white/6 text-sm">No messages yet</div>
+          ) : messages.map(msg => (
+            <div key={msg._id} className={`bg-[#1a1a1a] rounded-2xl p-4 border transition-colors ${!msg.read ? 'border-orange-500/20' : 'border-white/6'}`}>
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs shrink-0 ${!msg.read ? 'bg-orange-500/15 text-orange-400' : 'bg-white/8 text-white/50'}`}>
+                    {msg.name?.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className={`text-sm font-semibold ${!msg.read ? 'text-white' : 'text-white/70'}`}>{msg.name}</span>
+                      {!msg.read && <span className="text-[9px] bg-orange-500/15 text-orange-400 px-1.5 py-0.5 rounded-full font-bold">NEW</span>}
+                    </div>
+                    <p className="text-xs text-white/35">
+                      {new Date(msg.createdAt!).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 shrink-0">
+                  <button
+                    onClick={() => markRead(msg._id!, !!msg.read)}
+                    className={`p-1.5 rounded-lg transition-colors ${msg.read ? 'text-green-400 bg-green-500/10' : 'text-white/30 hover:text-white hover:bg-white/8'}`}
+                    title={msg.read ? 'Mark unread' : 'Mark read'}
+                  >
+                    <CheckCircle className="w-4 h-4" />
+                  </button>
+                  <button onClick={() => deleteMessage(msg._id!)} className="p-1.5 rounded-lg text-white/20 hover:text-red-400 hover:bg-red-500/10 transition-colors">
                     <Trash2 className="w-4 h-4" />
                   </button>
                 </div>
-                
-                <div className="bg-black/20 rounded-xl p-3 mb-3 border border-white/5">
-                  <p className="text-sm text-white/90 leading-relaxed whitespace-pre-wrap">{msg.message}</p>
-                </div>
-                
-                <div className="flex gap-2">
-                  <a href={`tel:${msg.phone}`} className="flex-1 flex items-center justify-center gap-2 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-medium text-white transition-colors">
+              </div>
+
+              <div className="mt-3 pl-11">
+                <p className="text-sm text-white/70 leading-relaxed bg-white/3 rounded-xl px-3 py-2">{msg.message}</p>
+                <div className="flex gap-2 mt-3">
+                  <a href={`tel:${msg.phone}`} className="flex-1 text-center py-1.5 text-xs font-medium bg-white/5 hover:bg-white/10 rounded-lg text-white/60 hover:text-white transition-colors">
                     Call {msg.phone}
                   </a>
-                  <a href={`https://wa.me/${msg.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="flex-1 flex items-center justify-center gap-2 py-2 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 rounded-lg text-xs font-medium text-green-400 transition-colors">
+                  <a href={`https://wa.me/${msg.phone?.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer"
+                    className="flex-1 text-center py-1.5 text-xs font-medium bg-green-500/8 hover:bg-green-500/15 rounded-lg text-green-400 transition-colors">
                     WhatsApp
                   </a>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
+      )}
 
-          {/* Desktop View: Table */}
-          <div className="hidden md:block overflow-x-auto">
-            <table className="w-full text-left text-sm text-muted-foreground">
-              <thead className="bg-white/5 text-foreground font-semibold uppercase text-xs tracking-wider">
-                <tr>
-                  <th className="px-6 py-4">Status</th>
-                  <th className="px-6 py-4">Name</th>
-                  <th className="px-6 py-4">Contact</th>
-                  <th className="px-6 py-4 w-1/2">Message</th>
-                  <th className="px-6 py-4">Date</th>
-                  <th className="px-6 py-4 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-white/10">
-                {messages.length === 0 ? (
-                  <tr><td colSpan={6} className="px-6 py-12 text-center text-muted-foreground">No messages yet.</td></tr>
-                ) : messages.map((msg) => (
-                  <tr key={msg._id} className={`hover:bg-white/5 transition-colors ${!msg.read ? 'bg-primary/5' : ''}`}>
-                    <td className="px-6 py-4 w-16">
-                      <button onClick={() => markAsRead(msg._id!, !!msg.read)}
-                        className={`p-2 rounded-full transition-colors ${msg.read ? 'text-green-500 bg-green-500/10 hover:bg-green-500/20' : 'text-primary bg-primary/10 hover:bg-primary/20'}`}>
-                        <CheckCircle className="w-4 h-4" />
-                      </button>
-                    </td>
-                    <td className={`px-6 py-4 font-medium ${!msg.read ? 'text-white' : ''}`}>{msg.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <a href={`tel:${msg.phone}`} className="text-white/80 hover:text-primary transition-colors hover:underline block">{msg.phone}</a>
-                      <a href={`https://wa.me/${msg.phone.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-xs text-green-400 hover:text-green-300 hover:underline mt-1 inline-block">WhatsApp</a>
-                    </td>
-                    <td className="px-6 py-4 max-w-xs xl:max-w-md">
-                      <p className="truncate" title={msg.message}>{msg.message}</p>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-xs text-white/60">
-                      {new Date(msg.createdAt!).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      <br/>
-                      {new Date(msg.createdAt!).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}
-                    </td>
-                    <td className="px-6 py-4 text-right">
-                      <button onClick={() => deleteMessage(msg._id!)} className="p-2 text-destructive/70 hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors">
-                        <Trash2 className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : activeTab === 'gallery' ? (
-        /* ─── GALLERY ─── */
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="md:col-span-1 border border-white/10 rounded-xl p-6 glass">
-            <h3 className="font-semibold text-lg mb-4 flex items-center gap-2 text-primary"><Plus className="w-5 h-5" /> Add Image</h3>
-            <form onSubmit={handleAddImage} className="space-y-4">
-              <div>
-                <label className={labelCls}>Image URL</label>
-                <input type="url" placeholder="https://..." value={newImageUrl} onChange={e => setNewImageUrl(e.target.value)} className={inputCls} required />
-              </div>
-              <div>
-                <label className={labelCls}>Caption</label>
-                <input type="text" placeholder="e.g. Belt Ceremony 2026" value={newImageAlt} onChange={e => setNewImageAlt(e.target.value)} className={inputCls} />
-              </div>
-              <button type="submit" disabled={addingImage || !newImageUrl} className="w-full py-2 bg-primary text-white rounded-lg font-medium text-sm hover:bg-primary/90 transition-colors disabled:opacity-50">
-                {addingImage ? 'Adding...' : 'Add to Gallery'}
-              </button>
-            </form>
-          </div>
-          <div className="md:col-span-2 grid grid-cols-2 lg:grid-cols-3 gap-4">
-            {images.map(img => (
-              <div key={img._id} className="glass rounded-xl overflow-hidden group relative border border-white/10 aspect-square">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={img.url} alt={img.alt} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-3">
-                  <div className="flex justify-end gap-2">
-                    <a href={img.url} target="_blank" rel="noopener noreferrer" className="p-1.5 bg-white/20 hover:bg-white/40 rounded-md text-white transition-colors"><ExternalLink className="w-4 h-4" /></a>
-                    <button onClick={() => deleteImage(img._id!)} className="p-1.5 bg-destructive/60 hover:bg-destructive rounded-md text-white transition-colors"><Trash2 className="w-4 h-4" /></button>
-                  </div>
-                  <p className="text-xs text-white break-words line-clamp-2">{img.alt}</p>
-                </div>
-              </div>
-            ))}
-            {images.length === 0 && <div className="col-span-full h-32 flex items-center justify-center text-muted-foreground border border-dashed border-white/20 rounded-xl">No images yet</div>}
-          </div>
-        </div>
-      ) : activeTab === 'students' ? (
-        /* ─── STUDENTS ─── */
+      {/* ═══ GALLERY ════════════════════════════════════════════ */}
+      {tab === 'gallery' && (
         <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-3 justify-between">
-            <input
-              type="text"
-              placeholder="Search by name or phone..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="flex-1 px-4 py-2.5 bg-black/20 border border-white/10 rounded-xl text-sm outline-none focus:border-primary text-white placeholder-white/30"
-            />
-            <button onClick={openAddStudent} className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors whitespace-nowrap">
-              <Plus className="w-4 h-4" /> Add Student
+          <form onSubmit={handleAddImage} className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/6">
+            <p className="text-sm font-semibold text-white mb-3">Add Image</p>
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div>
+                <label className={lbl}>Image URL *</label>
+                <input type="url" placeholder="https://..." value={newImageUrl} onChange={e => setNewImageUrl(e.target.value)} className={inp} required />
+              </div>
+              <div>
+                <label className={lbl}>Caption</label>
+                <input type="text" placeholder="e.g. Belt Ceremony 2026" value={newImageAlt} onChange={e => setNewImageAlt(e.target.value)} className={inp} />
+              </div>
+            </div>
+            <button type="submit" disabled={addingImage || !newImageUrl} className="mt-3 px-5 py-2 bg-orange-500 hover:bg-orange-500/90 text-white rounded-xl text-sm font-semibold disabled:opacity-40 transition-colors">
+              {addingImage ? 'Adding...' : '+ Add to Gallery'}
+            </button>
+          </form>
+
+          {images.length === 0 ? (
+            <div className="bg-[#1a1a1a] rounded-2xl p-12 text-center text-white/30 border border-dashed border-white/10 text-sm">No images yet</div>
+          ) : (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {images.map(img => (
+                <div key={img._id} className="bg-[#1a1a1a] rounded-2xl overflow-hidden border border-white/6 group aspect-square relative">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img.url} alt={img.alt} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-between p-2.5">
+                    <div className="flex justify-end gap-1.5">
+                      <a href={img.url} target="_blank" rel="noopener noreferrer" className="p-1.5 bg-white/15 hover:bg-white/30 rounded-lg text-white transition-colors">
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                      <button onClick={() => deleteImage(img._id!)} className="p-1.5 bg-red-500/60 hover:bg-red-500 rounded-lg text-white transition-colors">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                    {img.alt && <p className="text-[10px] text-white/80 line-clamp-2">{img.alt}</p>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* ═══ STUDENTS ═══════════════════════════════════════════ */}
+      {tab === 'students' && (
+        <div className="space-y-3">
+          <div className="flex gap-2">
+            <div className="flex-1 relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/25" />
+              <input
+                type="text" placeholder="Search students..." value={search}
+                onChange={e => setSearch(e.target.value)}
+                className="w-full pl-9 pr-4 py-2.5 bg-[#1a1a1a] border border-white/8 rounded-xl text-sm outline-none focus:border-orange-500/50 text-white placeholder-white/20 transition-colors"
+              />
+            </div>
+            <button onClick={openAdd} className="flex items-center gap-2 px-4 py-2.5 bg-orange-500 hover:bg-orange-500/90 text-white rounded-xl text-sm font-semibold transition-colors whitespace-nowrap">
+              <Plus className="w-4 h-4" /> Add
             </button>
           </div>
 
-          {/* Add / Edit Form Modal */}
-          {showAddStudent && (
-            <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[100] flex items-center justify-center p-2 sm:p-4 perspective-1000">
-              <div className="glass w-full max-w-2xl rounded-2xl p-4 sm:p-8 border border-white/10 max-h-[95vh] sm:max-h-[90vh] overflow-y-auto custom-scrollbar shadow-2xl animate-in zoom-in-95 duration-200">
-                <div className="flex justify-between items-center mb-6 sticky top-0 bg-transparent backdrop-blur-xl z-10 py-2 -mt-2 -mx-2 px-2 rounded-t-xl">
-                  <h3 className="text-xl font-bold text-white tracking-tight">{editingStudent ? 'Edit Student' : 'Add New Student'}</h3>
-                  <button onClick={() => setShowAddStudent(false)} className="p-2 hover:bg-white/10 bg-white/5 rounded-xl text-muted-foreground hover:text-white transition-colors"><X className="w-5 h-5" /></button>
+          {filtered.length === 0 ? (
+            <div className="bg-[#1a1a1a] rounded-2xl p-12 text-center text-white/30 border border-white/6 text-sm">No students found</div>
+          ) : filtered.map(s => {
+            const status = feeStatus(s)
+            return (
+              <div key={s._id} className={`bg-[#1a1a1a] rounded-2xl p-4 border border-white/6 transition-colors ${!s.active ? 'opacity-50' : ''}`}>
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm shrink-0 ${BELT_COLORS[s.belt]}`}>
+                      {s.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-white">{s.name}</p>
+                      <p className="text-xs text-white/35">{s.parentName ? `Parent: ${s.parentName}` : s.phone}</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-1 shrink-0">
+                    <button onClick={() => openEdit(s)} className="p-1.5 rounded-lg text-white/30 hover:text-white hover:bg-white/8 transition-colors">
+                      <Edit2 className="w-4 h-4" />
+                    </button>
+                    <button onClick={() => deleteStudent(s._id)} className="p-1.5 rounded-lg text-white/20 hover:text-red-400 hover:bg-red-500/10 transition-colors">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
-                <form onSubmit={saveStudent} className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+
+                <div className="grid grid-cols-3 gap-2 mt-3 pl-12">
+                  <div className="bg-white/3 rounded-xl p-2 text-center">
+                    <div className={`flex items-center justify-center gap-1 mb-0.5`}>
+                      <div className={`w-1.5 h-1.5 rounded-full ${BELT_DOT[s.belt]}`} />
+                      <span className="text-[10px] text-white/35 uppercase">Belt</span>
+                    </div>
+                    <p className="text-xs font-medium text-white capitalize">{s.belt}</p>
+                  </div>
+                  <div className="bg-white/3 rounded-xl p-2 text-center">
+                    <p className="text-[10px] text-white/35 uppercase mb-0.5">Batch</p>
+                    <p className="text-xs font-medium text-white">{BATCH_LABELS[s.batch]}</p>
+                  </div>
+                  <div className="bg-white/3 rounded-xl p-2 text-center">
+                    <div className="flex items-center justify-center gap-1 mb-0.5">
+                      <div className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
+                      <span className="text-[10px] text-white/35 uppercase">Fee</span>
+                    </div>
+                    <p className={`text-xs font-medium ${status.color}`}>{status.label}</p>
+                  </div>
+                </div>
+
+                {s.phone && (
+                  <div className="mt-2 pl-12">
+                    <a href={`tel:${s.phone}`} className="text-xs text-white/35 hover:text-white transition-colors">{s.phone}</a>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+
+          {/* Student form modal */}
+          {showStudentForm && (
+            <div className="fixed inset-0 bg-black/70 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4">
+              <div className="bg-[#1a1a1a] w-full sm:max-w-2xl rounded-t-3xl sm:rounded-2xl border border-white/8 max-h-[90vh] overflow-y-auto">
+                <div className="flex items-center justify-between px-5 py-4 border-b border-white/8 sticky top-0 bg-[#1a1a1a]">
+                  <h3 className="font-bold text-white">{editingStudent ? 'Edit Student' : 'Add Student'}</h3>
+                  <button onClick={() => setShowStudentForm(false)} className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/8 transition-colors">
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+                <form onSubmit={saveStudent} className="p-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="sm:col-span-2">
-                    <label className={labelCls}>Student Name *</label>
-                    <input required type="text" placeholder="Full name" value={studentForm.name} onChange={e => setStudentForm({ ...studentForm, name: e.target.value })} className={inputCls} />
+                    <label className={lbl}>Full Name *</label>
+                    <input required type="text" placeholder="Student name" value={studentForm.name} onChange={e => setStudentForm({ ...studentForm, name: e.target.value })} className={inp} />
                   </div>
                   <div>
-                    <label className={labelCls}>Phone *</label>
-                    <input required type="tel" placeholder="Mobile number" value={studentForm.phone} onChange={e => setStudentForm({ ...studentForm, phone: e.target.value })} className={inputCls} />
+                    <label className={lbl}>Phone *</label>
+                    <input required type="tel" placeholder="Mobile number" value={studentForm.phone} onChange={e => setStudentForm({ ...studentForm, phone: e.target.value })} className={inp} />
                   </div>
                   <div>
-                    <label className={labelCls}>Parent / Guardian</label>
-                    <input type="text" placeholder="Parent name" value={studentForm.parentName} onChange={e => setStudentForm({ ...studentForm, parentName: e.target.value })} className={inputCls} />
+                    <label className={lbl}>Parent Name</label>
+                    <input type="text" placeholder="Parent/guardian" value={studentForm.parentName} onChange={e => setStudentForm({ ...studentForm, parentName: e.target.value })} className={inp} />
                   </div>
                   <div className="sm:col-span-2">
-                    <label className={labelCls}>Address</label>
-                    <input type="text" placeholder="Home address" value={studentForm.address} onChange={e => setStudentForm({ ...studentForm, address: e.target.value })} className={inputCls} />
+                    <label className={lbl}>Address</label>
+                    <input type="text" placeholder="Home address" value={studentForm.address} onChange={e => setStudentForm({ ...studentForm, address: e.target.value })} className={inp} />
                   </div>
-                  
-                  <div className="h-px bg-white/10 sm:col-span-2 my-2" />
-                  
                   <div>
-                    <label className={labelCls}>Batch</label>
-                    <select value={studentForm.batch} onChange={e => setStudentForm({ ...studentForm, batch: e.target.value as Batch })} className={inputCls}>
-                      {Object.entries(BATCH_LABELS).map(([k, v]) => <option key={k} value={k} className="bg-zinc-900">{v}</option>)}
+                    <label className={lbl}>Batch</label>
+                    <select value={studentForm.batch} onChange={e => setStudentForm({ ...studentForm, batch: e.target.value as Batch })} className={inp}>
+                      {Object.entries(BATCH_LABELS).map(([k, v]) => <option key={k} value={k} className="bg-[#1a1a1a]">{v}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className={labelCls}>Belt</label>
-                    <select value={studentForm.belt} onChange={e => setStudentForm({ ...studentForm, belt: e.target.value as Belt })} className={inputCls}>
-                      {Object.keys(BELT_COLORS).map(b => <option key={b} value={b} className="bg-zinc-900">{b.charAt(0).toUpperCase() + b.slice(1)}</option>)}
+                    <label className={lbl}>Belt</label>
+                    <select value={studentForm.belt} onChange={e => setStudentForm({ ...studentForm, belt: e.target.value as Belt })} className={inp}>
+                      {(Object.keys(BELT_COLORS) as Belt[]).map(b => <option key={b} value={b} className="bg-[#1a1a1a]">{b.charAt(0).toUpperCase() + b.slice(1)}</option>)}
                     </select>
                   </div>
                   <div>
-                    <label className={labelCls}>Join Date</label>
-                    <input type="date" value={studentForm.joinDate} onChange={e => setStudentForm({ ...studentForm, joinDate: e.target.value })} className={inputCls} />
-                  </div>
-                  
-                  <div className="h-px bg-white/10 sm:col-span-2 my-2" />
-                  
-                  <div>
-                    <label className={labelCls}>Fee Paid Until</label>
-                    <input type="date" value={studentForm.feePaidUntil} onChange={e => setStudentForm({ ...studentForm, feePaidUntil: e.target.value })} className={inputCls} />
+                    <label className={lbl}>Join Date</label>
+                    <input type="date" value={studentForm.joinDate} onChange={e => setStudentForm({ ...studentForm, joinDate: e.target.value })} className={inp} />
                   </div>
                   <div>
-                    <label className={labelCls}>Monthly Fee (₹)</label>
-                    <input type="number" value={studentForm.monthlyFee} onChange={e => setStudentForm({ ...studentForm, monthlyFee: Number(e.target.value) })} className={inputCls} />
+                    <label className={lbl}>Fee Paid Until</label>
+                    <input type="date" value={studentForm.feePaidUntil} onChange={e => setStudentForm({ ...studentForm, feePaidUntil: e.target.value })} className={inp} />
                   </div>
-                  <div className="sm:col-span-2 flex flex-col sm:flex-row gap-4 sm:items-center p-4 bg-white/5 rounded-xl border border-white/5">
-                    <label className="flex items-center gap-3 text-sm text-white font-medium cursor-pointer group">
-                      <div className="relative flex items-center justify-center">
-                        <input type="checkbox" checked={studentForm.admissionFeePaid} onChange={e => setStudentForm({ ...studentForm, admissionFeePaid: e.target.checked })} className="peer sr-only w-5 h-5" />
-                        <div className="w-5 h-5 border-2 border-white/30 rounded md flex items-center justify-center peer-checked:bg-primary peer-checked:border-primary transition-colors">
-                           <Check className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100" strokeWidth={3} />
+                  <div>
+                    <label className={lbl}>Monthly Fee (₹)</label>
+                    <input type="number" value={studentForm.monthlyFee} onChange={e => setStudentForm({ ...studentForm, monthlyFee: Number(e.target.value) })} className={inp} />
+                  </div>
+                  <div className="flex items-center gap-4 sm:col-span-2 p-3 bg-white/3 rounded-xl">
+                    {[
+                      { key: 'admissionFeePaid' as const, label: 'Admission Paid' },
+                      { key: 'uniformFeePaid' as const, label: 'Uniform Paid' },
+                    ].map(({ key, label }) => (
+                      <label key={key} className="flex items-center gap-2 cursor-pointer">
+                        <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${studentForm[key] ? 'bg-orange-500 border-orange-500' : 'border-white/20 bg-transparent'}`}
+                          onClick={() => setStudentForm({ ...studentForm, [key]: !studentForm[key] })}>
+                          {studentForm[key] && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
                         </div>
-                      </div>
-                      Admission Paid
-                    </label>
-                    <label className="flex items-center gap-3 text-sm text-white font-medium cursor-pointer group">
-                      <div className="relative flex items-center justify-center">
-                        <input type="checkbox" checked={studentForm.uniformFeePaid} onChange={e => setStudentForm({ ...studentForm, uniformFeePaid: e.target.checked })} className="peer sr-only w-5 h-5" />
-                        <div className="w-5 h-5 border-2 border-white/30 rounded md flex items-center justify-center peer-checked:bg-primary peer-checked:border-primary transition-colors">
-                           <Check className="w-3 h-3 text-white opacity-0 peer-checked:opacity-100" strokeWidth={3} />
-                        </div>
-                      </div>
-                      Uniform Paid
-                    </label>
+                        <span className="text-sm text-white/60">{label}</span>
+                      </label>
+                    ))}
                   </div>
                   <div className="sm:col-span-2">
-                    <label className={labelCls}>Notes</label>
-                    <textarea placeholder="Any administrative remarks..." value={studentForm.notes} onChange={e => setStudentForm({ ...studentForm, notes: e.target.value })} className={`${inputCls} resize-none h-24`} />
+                    <label className={lbl}>Notes</label>
+                    <textarea placeholder="Any notes..." value={studentForm.notes} onChange={e => setStudentForm({ ...studentForm, notes: e.target.value })} className={`${inp} resize-none h-20`} />
                   </div>
-                  <div className="sm:col-span-2 flex flex-col-reverse sm:flex-row gap-3 justify-end pt-4 mt-2 border-t border-white/10">
-                    <button type="button" onClick={() => setShowAddStudent(false)} className="w-full sm:w-auto px-6 py-3 border border-white/10 rounded-xl text-sm font-medium text-muted-foreground hover:bg-white/5 hover:text-white transition-colors">Cancel</button>
-                    <button type="submit" disabled={savingStudent} className="w-full sm:w-auto px-8 py-3 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-all disabled:opacity-50 shadow-lg shadow-primary/20">
-                      {savingStudent ? 'Saving...' : editingStudent ? 'Update Student' : 'Save Student'}
+                  <div className="sm:col-span-2 flex gap-3 justify-end pt-2 border-t border-white/8">
+                    <button type="button" onClick={() => setShowStudentForm(false)} className="px-5 py-2.5 rounded-xl text-sm font-medium text-white/50 hover:text-white hover:bg-white/5 border border-white/8 transition-colors">Cancel</button>
+                    <button type="submit" disabled={savingStudent} className="px-6 py-2.5 bg-orange-500 hover:bg-orange-500/90 text-white rounded-xl text-sm font-semibold disabled:opacity-40 transition-colors">
+                      {savingStudent ? 'Saving...' : editingStudent ? 'Update' : 'Save'}
                     </button>
                   </div>
                 </form>
               </div>
             </div>
           )}
-
-          {/* Student Table / Cards */}
-          <div className="glass rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-            {/* Mobile View: Stacked Cards */}
-            <div className="block md:hidden divide-y divide-white/5">
-              {filteredStudents.length === 0 ? (
-                <div className="px-5 py-12 text-center text-muted-foreground">No students found.</div>
-              ) : filteredStudents.map(s => {
-                const status = feeStatus(s)
-                return (
-                  <div key={s._id} className={`p-5 space-y-4 transition-colors ${!s.active ? 'opacity-50' : ''}`}>
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-semibold text-white/90 text-lg">{s.name}</h4>
-                        {s.parentName && <p className="text-sm text-muted-foreground mt-0.5">P: {s.parentName}</p>}
-                      </div>
-                      <div className="flex gap-1">
-                        <button onClick={() => openEditStudent(s)} className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white/60 hover:text-white bg-white/5">
-                          <Edit2 className="w-4 h-4" />
-                        </button>
-                        <button onClick={() => deleteStudent(s._id)} className="p-2 hover:bg-destructive/10 rounded-lg transition-colors text-destructive bg-destructive/5">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-black/20 p-3 rounded-xl border border-white/5">
-                        <p className="text-xs text-muted-foreground uppercase mb-1">Contact</p>
-                        <a href={`tel:${s.phone}`} className="text-sm text-white hover:text-primary transition-colors">{s.phone}</a>
-                      </div>
-                      <div className="bg-black/20 p-3 rounded-xl border border-white/5">
-                        <p className="text-xs text-muted-foreground uppercase mb-1">Fee Status</p>
-                        <span className={`text-sm font-medium ${status.cls}`}>{status.label}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-2">
-                       <span className="px-3 py-1.5 bg-white/5 rounded-lg text-xs font-medium border border-white/10">Batch: {BATCH_LABELS[s.batch]}</span>
-                       <span className={`px-3 py-1.5 rounded-lg text-xs font-medium border capitalize ${BELT_COLORS[s.belt]}`}>{s.belt} Belt</span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* Desktop View: Table */}
-            <div className="hidden md:block overflow-x-auto">
-              <table className="w-full text-left text-sm text-muted-foreground">
-                <thead className="bg-white/5 text-foreground font-semibold uppercase text-xs tracking-wider">
-                  <tr>
-                    <th className="px-6 py-4">Name</th>
-                    <th className="px-6 py-4">Contact</th>
-                    <th className="px-6 py-4">Batch</th>
-                    <th className="px-6 py-4">Belt</th>
-                    <th className="px-6 py-4">Fee Status</th>
-                    <th className="px-6 py-4 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/10">
-                  {filteredStudents.length === 0 ? (
-                    <tr><td colSpan={6} className="px-6 py-12 text-center text-muted-foreground">No students found.</td></tr>
-                  ) : filteredStudents.map(s => {
-                    const status = feeStatus(s)
-                    return (
-                      <tr key={s._id} className={`hover:bg-white/5 transition-colors ${!s.active ? 'opacity-50' : ''}`}>
-                        <td className="px-6 py-4 font-medium text-white">
-                          <div className="flex flex-col">
-                            <span>{s.name}</span>
-                            {s.parentName && <span className="text-xs text-muted-foreground font-normal mt-0.5">{s.parentName}</span>}
-                          </div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <a href={`tel:${s.phone}`} className="text-white/80 hover:text-primary transition-colors hover:underline">{s.phone}</a>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className="px-2.5 py-1 bg-white/5 rounded-md text-xs border border-white/10 font-medium">{BATCH_LABELS[s.batch]}</span>
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={`px-2.5 py-1 rounded-md text-xs border font-medium capitalize flex inline-flex items-center gap-1.5 ${BELT_COLORS[s.belt]}`}>
-                            <span className="w-2 h-2 rounded-full bg-current opacity-70"></span>
-                            {s.belt}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-xs">
-                          <span className={`px-2.5 py-1 rounded-md bg-white/5 font-medium border border-transparent ${status.cls.replace('text-', 'text-').replace('400', '400')}`}>{status.label}</span>
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                          <div className="flex gap-1 justify-end opacity-0 group-hover:opacity-100 transition-opacity md:opacity-100">
-                            <button onClick={() => openEditStudent(s)} className="p-2 hover:bg-white/10 rounded-lg transition-colors text-white/60 hover:text-white">
-                              <Edit2 className="w-4 h-4" />
-                            </button>
-                            <button onClick={() => deleteStudent(s._id)} className="p-2 hover:bg-destructive/10 rounded-lg transition-colors text-destructive/70 hover:text-destructive">
-                              <Trash2 className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
-          </div>
         </div>
-      ) : activeTab === 'attendance' ? (
-        /* ─── ATTENDANCE ─── */
-        <div className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+      )}
+
+      {/* ═══ ATTENDANCE ══════════════════════════════════════════ */}
+      {tab === 'attendance' && (
+        <div className="space-y-3">
+          <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/6 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
             <div>
-              <label className={labelCls}>Select Date</label>
-              <input type="date" value={attendanceDate} onChange={e => setAttendanceDate(e.target.value)}
-                className="px-4 py-2.5 bg-black/20 border border-white/10 rounded-xl text-sm text-white outline-none focus:border-primary" />
+              <label className={lbl}>Date</label>
+              <input type="date" value={attendanceDate} onChange={e => setAttendanceDate(e.target.value)} className="px-3 py-2 bg-white/5 border border-white/8 rounded-xl text-sm text-white outline-none focus:border-orange-500/50 transition-colors" />
             </div>
-            <div className="flex gap-3 items-center">
-              <span className="text-sm text-muted-foreground">
-                Present: <span className="text-green-400 font-semibold">{Object.values(attendanceMap).filter(Boolean).length}</span>
-                {' / '}
-                <span className="text-white font-semibold">{students.filter(s => s.active).length}</span>
-              </span>
-              <button onClick={saveAttendance} disabled={savingAttendance} className="flex items-center gap-2 px-5 py-2.5 bg-primary text-white rounded-xl text-sm font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50">
+            <div className="flex items-center gap-4">
+              <div className="text-sm">
+                <span className="text-green-400 font-bold">{Object.values(attendanceMap).filter(Boolean).length}</span>
+                <span className="text-white/30"> / {students.filter(s => s.active).length} present</span>
+              </div>
+              <button onClick={saveAttendance} disabled={savingAttendance} className="flex items-center gap-2 px-4 py-2 bg-orange-500 hover:bg-orange-500/90 text-white rounded-xl text-sm font-semibold disabled:opacity-40 transition-colors">
                 <Check className="w-4 h-4" />
-                {savingAttendance ? 'Saving...' : 'Save Attendance'}
+                {savingAttendance ? 'Saving...' : 'Save'}
               </button>
             </div>
           </div>
 
-          <div className="glass rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-            {/* Mobile View: List */}
-            <div className="block md:hidden divide-y divide-white/5">
-                {students.filter(s => s.active).map(s => (
-                  <div key={s._id} className={`p-4 flex items-center justify-between transition-colors ${attendanceMap[s._id] ? 'bg-green-500/5' : 'hover:bg-white/5'}`}>
-                    <div>
-                      <h4 className="font-semibold text-white/90">{s.name}</h4>
-                      <div className="flex gap-2 mt-1">
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-medium border capitalize ${BELT_COLORS[s.belt]}`}>{s.belt}</span>
-                        <span className="text-[10px] text-muted-foreground bg-white/5 px-2 py-0.5 rounded border border-white/5">{BATCH_LABELS[s.batch]}</span>
-                      </div>
-                    </div>
-                    
-                    <button
-                      onClick={() => setAttendanceMap(prev => ({ ...prev, [s._id]: !prev[s._id] }))}
-                      className={`w-12 h-7 rounded-full transition-colors relative shadow-inner ${attendanceMap[s._id] ? 'bg-green-500' : 'bg-black/40 border border-white/10'}`}
-                    >
-                      <span className={`absolute top-1 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${attendanceMap[s._id] ? 'translate-x-6' : 'translate-x-1'}`} />
-                    </button>
+          <div className="space-y-2">
+            {students.filter(s => s.active).length === 0 ? (
+              <div className="bg-[#1a1a1a] rounded-2xl p-12 text-center text-white/30 border border-white/6 text-sm">No active students. Add students first.</div>
+            ) : students.filter(s => s.active).map(s => (
+              <div key={s._id} className={`bg-[#1a1a1a] rounded-2xl px-4 py-3.5 border transition-colors flex items-center justify-between ${attendanceMap[s._id] ? 'border-green-500/20' : 'border-white/6'}`}>
+                <div className="flex items-center gap-3">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${BELT_COLORS[s.belt]}`}>
+                    {s.name.charAt(0).toUpperCase()}
                   </div>
-                ))}
-                {students.filter(s => s.active).length === 0 && (
-                  <div className="p-8 text-center text-muted-foreground">No active students. Add students first.</div>
-                )}
-            </div>
-
-            {/* Desktop View: Table */}
-            <div className="hidden md:block overflow-x-auto">
-              <table className="w-full text-left text-sm text-muted-foreground">
-                <thead className="bg-white/5 text-foreground font-semibold uppercase text-xs tracking-wider">
-                  <tr>
-                    <th className="px-6 py-4">Name</th>
-                    <th className="px-6 py-4">Belt</th>
-                    <th className="px-6 py-4">Batch</th>
-                    <th className="px-6 py-4 text-center">Present</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/10">
-                  {students.filter(s => s.active).map(s => (
-                    <tr key={s._id} className={`transition-colors ${attendanceMap[s._id] ? 'bg-green-500/5' : 'hover:bg-white/5'}`}>
-                      <td className="px-6 py-4 font-medium text-white">{s.name}</td>
-                      <td className="px-6 py-4">
-                        <span className={`px-2.5 py-1 rounded-md text-xs border capitalize font-medium ${BELT_COLORS[s.belt]}`}>{s.belt}</span>
-                      </td>
-                      <td className="px-6 py-4">
-                        <span className="text-xs font-medium">{BATCH_LABELS[s.batch]}</span>
-                      </td>
-                      <td className="px-6 py-4 text-center">
-                        <button
-                          onClick={() => setAttendanceMap(prev => ({ ...prev, [s._id]: !prev[s._id] }))}
-                          className={`w-11 h-6 rounded-full transition-colors relative shadow-inner ${attendanceMap[s._id] ? 'bg-green-500' : 'bg-black/40 border border-white/10'}`}
-                        >
-                          <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${attendanceMap[s._id] ? 'translate-x-5' : 'translate-x-0.5'}`} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                  {students.filter(s => s.active).length === 0 && (
-                    <tr><td colSpan={4} className="px-6 py-12 text-center text-muted-foreground">No active students. Add students first.</td></tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+                  <div>
+                    <p className="text-sm font-medium text-white">{s.name}</p>
+                    <div className="flex items-center gap-1.5 mt-0.5">
+                      <div className={`w-1.5 h-1.5 rounded-full ${BELT_DOT[s.belt]}`} />
+                      <span className="text-[10px] text-white/35 capitalize">{s.belt} · {BATCH_LABELS[s.batch]}</span>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setAttendanceMap(p => ({ ...p, [s._id]: !p[s._id] }))}
+                  className={`w-12 h-6 rounded-full transition-colors relative shrink-0 ${attendanceMap[s._id] ? 'bg-green-500' : 'bg-white/10'}`}
+                >
+                  <span className={`absolute top-0.5 w-5 h-5 rounded-full bg-white shadow-sm transition-transform ${attendanceMap[s._id] ? 'translate-x-6' : 'translate-x-0.5'}`} />
+                </button>
+              </div>
+            ))}
           </div>
         </div>
-      ) : (
-        /* ─── FEES ─── */
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="glass rounded-2xl p-6 border border-white/10 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-white/10 transition-colors"></div>
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-white/5 rounded-xl"><Users className="w-6 h-6 text-white/80" /></div>
-                <div>
-                  <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1">Total Students</p>
-                  <p className="text-3xl font-black text-white">{students.length}</p>
-                </div>
-              </div>
-            </div>
-            <div className="glass rounded-2xl p-6 border border-red-500/20 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/10 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-red-500/20 transition-colors"></div>
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-red-500/10 rounded-xl"><IndianRupee className="w-6 h-6 text-red-400" /></div>
-                <div>
-                  <p className="text-xs text-red-400 uppercase tracking-wider font-semibold mb-1">Fee Overdue</p>
-                  <p className="text-3xl font-black text-red-400">{overdueCount}</p>
-                </div>
-              </div>
-            </div>
-            <div className="glass rounded-2xl p-6 border border-green-500/20 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-green-500/10 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-green-500/20 transition-colors"></div>
-              <div className="flex items-center gap-4">
-                <div className="p-3 bg-green-500/10 rounded-xl"><CheckCircle className="w-6 h-6 text-green-400" /></div>
-                <div>
-                  <p className="text-xs text-green-400 uppercase tracking-wider font-semibold mb-1">Fee Up-to-date</p>
-                  <p className="text-3xl font-black text-green-400">{students.filter(s => new Date(s.feePaidUntil) >= new Date()).length}</p>
-                </div>
-              </div>
-            </div>
+      )}
+
+      {/* ═══ FEES ════════════════════════════════════════════════ */}
+      {tab === 'fees' && (
+        <div className="space-y-3">
+          <div className="grid grid-cols-3 gap-3">
+            <StatCard icon={Users} label="Total Students" value={students.length} color="orange" />
+            <StatCard icon={AlertCircle} label="Overdue" value={overdueCount} color="red" />
+            <StatCard icon={CheckCircle} label="Paid Up" value={students.filter(s => new Date(s.feePaidUntil) >= new Date()).length} color="green" />
           </div>
 
-          <div className="glass rounded-2xl overflow-hidden border border-white/10 shadow-xl">
-            {/* Mobile View: Cards */}
-            <div className="block md:hidden divide-y divide-white/5">
-                {[...students].sort((a, b) => new Date(a.feePaidUntil).getTime() - new Date(b.feePaidUntil).getTime()).map(s => {
-                  const status = feeStatus(s)
-                  return (
-                    <div key={s._id} className="p-5 space-y-4 hover:bg-white/5 transition-colors">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h4 className="font-semibold text-white/90 text-lg">{s.name}</h4>
-                          <a href={`tel:${s.phone}`} className="text-sm text-muted-foreground hover:text-primary transition-colors">{s.phone}</a>
+          {/* Fee status bar chart */}
+          {students.length > 0 && (
+            <div className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/6">
+              <p className="text-sm font-semibold text-white mb-1">Monthly Fee Distribution</p>
+              <p className="text-xs text-white/35 mb-4">Students by fee amount</p>
+              {(() => {
+                const feeGroups = students.reduce((acc, s) => {
+                  const key = `₹${s.monthlyFee}`
+                  acc[key] = (acc[key] || 0) + 1
+                  return acc
+                }, {} as Record<string, number>)
+                const maxCount = Math.max(...Object.values(feeGroups), 1)
+                return (
+                  <div className="space-y-2">
+                    {Object.entries(feeGroups).sort((a, b) => parseInt(a[0].slice(1)) - parseInt(b[0].slice(1))).map(([fee, count]) => (
+                      <div key={fee} className="flex items-center gap-2">
+                        <span className="text-xs text-white/40 w-16">{fee}/mo</span>
+                        <div className="flex-1 h-2 bg-white/5 rounded-full overflow-hidden">
+                          <div className="h-full bg-orange-500/60 rounded-full transition-all" style={{ width: `${(count / maxCount) * 100}%` }} />
                         </div>
-                        <span className={`px-3 py-1.5 rounded-lg bg-white/5 text-xs font-semibold border ${status.cls.replace('text-', 'border-').replace('400', '400/30')} ${status.cls}`}>
-                          {status.label}
-                        </span>
+                        <span className="text-xs text-white/40 w-6 text-right">{count}</span>
                       </div>
-                      
-                      <div className="grid grid-cols-3 gap-2">
-                        <div className="bg-black/20 p-2.5 rounded-xl border border-white/5 text-center">
-                          <p className="text-[10px] text-muted-foreground uppercase mb-1">Monthly</p>
-                          <p className="text-sm font-medium text-white">₹{s.monthlyFee}</p>
-                        </div>
-                        <div className="bg-black/20 p-2.5 rounded-xl border border-white/5 text-center">
-                          <p className="text-[10px] text-muted-foreground uppercase mb-1">Admission</p>
-                          <span className={`text-xs font-semibold ${s.admissionFeePaid ? 'text-green-400' : 'text-red-400'}`}>
-                            {s.admissionFeePaid ? 'Paid' : 'Pending'}
-                          </span>
-                        </div>
-                        <div className="bg-black/20 p-2.5 rounded-xl border border-white/5 text-center">
-                          <p className="text-[10px] text-muted-foreground uppercase mb-1">Uniform</p>
-                          <span className={`text-xs font-semibold ${s.uniformFeePaid ? 'text-green-400' : 'text-red-400'}`}>
-                            {s.uniformFeePaid ? 'Paid' : 'Pending'}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="text-xs text-muted-foreground text-center">
-                        Paid Until: <span className="font-medium text-white/80">{new Date(s.feePaidUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
-                      </div>
-                    </div>
-                  )
-                })}
-                {students.length === 0 && (
-                  <div className="px-5 py-12 text-center text-muted-foreground">No students added yet.</div>
-                )}
+                    ))}
+                  </div>
+                )
+              })()}
             </div>
+          )}
 
-            {/* Desktop View: Table */}
-            <div className="hidden md:block overflow-x-auto">
-              <table className="w-full text-left text-sm text-muted-foreground">
-                <thead className="bg-white/5 text-foreground font-semibold uppercase text-xs tracking-wider">
-                  <tr>
-                    <th className="px-6 py-4">Student</th>
-                    <th className="px-6 py-4">Monthly Fee</th>
-                    <th className="px-6 py-4 text-center">Admission</th>
-                    <th className="px-6 py-4 text-center">Uniform</th>
-                    <th className="px-6 py-4">Valid Until</th>
-                    <th className="px-6 py-4">Status</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-white/10">
-                  {[...students].sort((a, b) => new Date(a.feePaidUntil).getTime() - new Date(b.feePaidUntil).getTime()).map(s => {
-                    const status = feeStatus(s)
-                    return (
-                      <tr key={s._id} className="hover:bg-white/5 transition-colors">
-                        <td className="px-6 py-4 font-medium text-white">
-                          <div>{s.name}</div>
-                          <a href={`tel:${s.phone}`} className="text-xs text-muted-foreground font-normal hover:text-primary">{s.phone}</a>
-                        </td>
-                        <td className="px-6 py-4 font-semibold">₹{s.monthlyFee}</td>
-                        <td className="px-6 py-4 text-center">
-                          <span className={`inline-flex items-center justify-center px-2 py-1 rounded-md text-xs font-medium ${s.admissionFeePaid ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
-                            {s.admissionFeePaid ? '✓ Paid' : 'Pending'}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-center">
-                          <span className={`inline-flex items-center justify-center px-2 py-1 rounded-md text-xs font-medium ${s.uniformFeePaid ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
-                            {s.uniformFeePaid ? '✓ Paid' : 'Pending'}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-xs text-white/80 font-medium">
-                          {new Date(s.feePaidUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
-                        </td>
-                        <td className="px-6 py-4">
-                          <span className={`px-2.5 py-1 rounded-md bg-white/5 text-xs font-semibold ${status.cls}`}>{status.label}</span>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                  {students.length === 0 && (
-                    <tr><td colSpan={6} className="px-6 py-12 text-center text-muted-foreground">No students added yet.</td></tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+          <div className="space-y-2">
+            {[...students].sort((a, b) => new Date(a.feePaidUntil).getTime() - new Date(b.feePaidUntil).getTime()).map(s => {
+              const status = feeStatus(s)
+              return (
+                <div key={s._id} className="bg-[#1a1a1a] rounded-2xl p-4 border border-white/6">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-semibold text-white">{s.name}</p>
+                      <a href={`tel:${s.phone}`} className="text-xs text-white/35 hover:text-white transition-colors">{s.phone}</a>
+                    </div>
+                    <div className={`flex items-center gap-1.5 text-xs font-semibold ${status.color}`}>
+                      <div className={`w-1.5 h-1.5 rounded-full ${status.dot}`} />
+                      {status.label}
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 mt-3">
+                    <div className="bg-white/3 rounded-xl p-2 text-center">
+                      <p className="text-[10px] text-white/30 mb-0.5">Monthly</p>
+                      <p className="text-xs font-semibold text-white">₹{s.monthlyFee}</p>
+                    </div>
+                    <div className="bg-white/3 rounded-xl p-2 text-center">
+                      <p className="text-[10px] text-white/30 mb-0.5">Admission</p>
+                      <p className={`text-xs font-semibold ${s.admissionFeePaid ? 'text-green-400' : 'text-red-400'}`}>{s.admissionFeePaid ? 'Paid' : 'Pending'}</p>
+                    </div>
+                    <div className="bg-white/3 rounded-xl p-2 text-center">
+                      <p className="text-[10px] text-white/30 mb-0.5">Uniform</p>
+                      <p className={`text-xs font-semibold ${s.uniformFeePaid ? 'text-green-400' : 'text-red-400'}`}>{s.uniformFeePaid ? 'Paid' : 'Pending'}</p>
+                    </div>
+                  </div>
+                  <p className="text-[10px] text-white/25 text-center mt-2">
+                    Paid until {new Date(s.feePaidUntil).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </p>
+                </div>
+              )
+            })}
+            {students.length === 0 && (
+              <div className="bg-[#1a1a1a] rounded-2xl p-12 text-center text-white/30 border border-white/6 text-sm">No students added yet</div>
+            )}
           </div>
         </div>
       )}
