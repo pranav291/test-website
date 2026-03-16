@@ -57,7 +57,7 @@ export function Fees() {
             
             <div className="relative glass-minimal rounded-[22px] border border-white/10 p-8 md:p-12 overflow-hidden bg-background/80 md:bg-transparent">
               {/* Popular Badge */}
-              <div className="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-4 py-2 rounded-bl-2xl tracking-wider uppercase shadow-lg shadow-primary/20">
+              <div className="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-4 py-2 rounded-bl-2xl tracking-wider uppercase">
                 Most Popular
               </div>
 

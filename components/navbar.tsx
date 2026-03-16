@@ -86,7 +86,7 @@ export function Navbar() {
               
               <a
                 href="#contact"
-                className="bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 btn-3d"
+                className="bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-primary/90 transition-colors btn-3d"
               >
                 {getTranslation('hero.joinBtn', language)}
               </a>
@@ -147,7 +147,7 @@ export function Navbar() {
               <a
                 href="#contact"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full py-4 text-center bg-primary text-white rounded-xl font-bold tracking-wide shadow-lg shadow-primary/20 btn-3d"
+                className="block w-full py-4 text-center bg-primary text-white rounded-xl font-bold tracking-wide btn-3d"
               >
                 {getTranslation('hero.joinBtn', language)}
               </a>

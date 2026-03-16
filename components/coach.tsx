@@ -123,7 +123,7 @@ export function Coach() {
                 
                 <div className="relative z-10">
                   {/* Icon */}
-                  <div className={`w-16 h-16 rounded-2xl bg-background flex items-center justify-center mb-6 border border-white/10 group-hover:scale-110 transition-transform duration-300 shadow-xl`}>
+                  <div className={`w-16 h-16 rounded-2xl bg-background flex items-center justify-center mb-6 border border-white/10 group-hover:scale-110 transition-transform duration-300`}>
                     <Icon className={`w-8 h-8 ${member.iconColor}`} />
                   </div>
                   

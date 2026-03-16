@@ -133,7 +133,7 @@ export function About() {
                 variants={item}
                 className="glass-minimal p-6 rounded-2xl flex flex-col items-center justify-center text-center group hover:bg-white/5 transition-colors duration-300"
               >
-                <div className="w-14 h-14 bg-background rounded-full flex items-center justify-center mb-4 border border-white/5 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300 shadow-lg">
+                <div className="w-14 h-14 bg-background rounded-full flex items-center justify-center mb-4 border border-white/5 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300">
                   <Icon className="w-7 h-7 text-primary" />
                 </div>
                 <h4 className="font-semibold text-foreground/90 group-hover:text-white transition-colors">

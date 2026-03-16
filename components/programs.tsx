@@ -103,7 +103,7 @@ export function Programs() {
 
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="flex justify-between items-start mb-8">
-                    <div className="w-16 h-16 bg-background rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300 shadow-xl">
+                    <div className="w-16 h-16 bg-background rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300">
                       <Icon className="w-8 h-8 text-primary" />
                     </div>
                     {prog.badge && (

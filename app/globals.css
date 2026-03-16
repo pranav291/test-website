@@ -82,12 +82,10 @@
 @layer utilities {
   .glass {
     @apply bg-background/60 backdrop-blur-xl border-y border-white/10;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
   }
 
   .glass-card {
     @apply bg-white/5 backdrop-blur-md border border-white/10;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
   }
 
   .glass-minimal {
@@ -133,10 +131,8 @@
 }
 
 .whatsapp-float {
-  box-shadow: 0 8px 32px rgba(37, 211, 102, 0.3);
 }
 
 .whatsapp-float:hover {
   transform: translateY(-5px) scale(1.05);
-  box-shadow: 0 12px 40px rgba(37, 211, 102, 0.4);
 }
