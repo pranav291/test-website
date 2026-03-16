@@ -53,9 +53,9 @@ export function Hero() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-5xl md:text-7xl lg:text-8xl font-black text-white leading-[1.1] tracking-tight mb-6"
           >
-            Master The
+            Become Strong & 
             <br />
-            <span className="gradient-text-primary">Art of Combat.</span>
+            <span className="gradient-text-primary">Confident.</span>
           </motion.h1>
 
           <motion.p
