@@ -16,8 +16,21 @@ export async function GET(req: NextRequest) {
     start.setHours(0, 0, 0, 0)
     const end = new Date(endDate)
     end.setHours(23, 59, 59, 999)
-    const records = await Attendance.find({ date: { $gte: start, $lte: end } }).populate('studentId', 'name belt batch')
-    return NextResponse.json(records)
+    
+    const records = await Attendance.find({ date: { $gte: start, $lte: end } }).lean()
+    
+    // Fetch students to manually populate
+    const { Student } = await import('@/lib/models/Student')
+    const students = await Student.find().lean()
+    const studentMap = new Map()
+    students.forEach((s: any) => studentMap.set(s._id.toString(), s))
+    
+    const populatedRecords = records.map(r => ({
+      ...r,
+      studentId: studentMap.get(r.studentId) || { name: 'Unknown', belt: '-', batch: '-' }
+    }))
+    
+    return NextResponse.json(populatedRecords)
   }
 
   if (date) {

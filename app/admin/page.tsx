@@ -201,7 +201,7 @@ export default function AdminDashboard() {
         head: [['Date', 'Student Name', 'Batch', 'Belt', 'Status']],
         body: tableData,
         theme: 'striped',
-        headStyles: { fillColor: [249, 115, 22] }, // orange-500
+        headStyles: { fillColor: [147, 51, 234] }, // purple-600
         styles: { fontSize: 9 },
         alternateRowStyles: { fillColor: [245, 245, 245] }
       })
