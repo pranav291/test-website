@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Poppins, Noto_Sans_Devanagari } from 'next/font/google'
 import './globals.css'
+import AnnouncementBanner from '@/components/announcement-banner'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -179,6 +180,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
+        <AnnouncementBanner />
         {children}
       </body>
     </html>
