@@ -34,9 +34,6 @@ export function Footer() {
 
   return (
     <footer className="relative bg-background pt-20 border-t border-white/5 overflow-hidden">
-      {/* Subtle Glow */}
-      <div className="absolute top-0 left-1/2 w-[800px] h-[300px] bg-primary/5 rounded-[100%] blur-[100px] -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 pb-16">
           
@@ -57,7 +54,7 @@ export function Footer() {
             <div className="flex gap-3">
               <a
                 href="tel:+918226856261"
-                className="w-10 h-10 rounded-xl glass-minimal flex items-center justify-center text-foreground/80 hover:text-white hover:bg-white/10 hover:-translate-y-1 transition-all duration-300"
+                className="w-10 h-10 rounded shadow-md tk-card-solid flex items-center justify-center text-foreground/80 hover:text-white hover:bg-[#1a1a1a] hover:-translate-y-1 transition-all duration-300"
                 aria-label="Phone"
               >
                 <FaPhoneAlt size={16} />
@@ -66,7 +63,7 @@ export function Footer() {
                 href="https://www.instagram.com/kings_of_taekwondo/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-xl glass-minimal flex items-center justify-center text-foreground/80 hover:text-white hover:bg-pink-500/20 hover:-translate-y-1 transition-all duration-300"
+                className="w-10 h-10 rounded tk-card-solid flex items-center justify-center text-foreground/80 hover:text-white hover:bg-pink-500/20 hover:-translate-y-1 transition-all duration-300 shadow-md"
                 aria-label="Instagram"
               >
                 <FaInstagram size={18} />
@@ -119,10 +116,10 @@ export function Footer() {
             <h4 className="text-sm font-bold text-white tracking-widest uppercase mb-6">
               {getTranslation('footer.timings', language)}
             </h4>
-            <div className="glass-minimal rounded-2xl p-5 border border-white/5">
+            <div className="tk-card-solid rounded-xl p-5 border border-white/5">
               <div className="flex items-center gap-3 mb-4">
                 <FaClock className="w-4 h-4 text-amber-400" />
-                <span className="text-sm font-semibold text-white">{getTranslation('timing.title', language)}</span>
+                <span className="text-sm font-bold text-white uppercase tracking-wider">{getTranslation('timing.title', language)}</span>
               </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
@@ -157,7 +154,7 @@ export function Footer() {
               </p>
               <button
                 onClick={scrollToTop}
-                className="w-10 h-10 rounded-full bg-white/5 hover:bg-primary text-white flex items-center justify-center transition-all duration-300 btn-3d"
+                className="w-10 h-10 rounded btn-3d bg-white/5 hover:bg-primary text-white flex items-center justify-center transition-all duration-300 shadow-sm"
                 aria-label="Scroll to top"
               >
                 <FaArrowUp size={14} />

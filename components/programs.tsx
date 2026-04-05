@@ -74,10 +74,10 @@ export function Programs() {
           <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">
             Curriculum
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white">
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white uppercase">
             {getTranslation('programs.title', language)}
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
         </motion.div>
 
         {/* Grid */}
@@ -94,26 +94,25 @@ export function Programs() {
               <motion.div
                 key={index}
                 variants={item}
-                className="glass-minimal rounded-3xl p-8 relative group hover:bg-white/5 transition-all duration-500 overflow-hidden"
+                className="tk-card-3d rounded-xl p-8 relative flex flex-col"
               >
-                {/* Background glow effect */}
-                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none">
+                <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
                   <Icon className="w-32 h-32 absolute -top-4 -right-4 -rotate-12 text-white" />
                 </div>
 
                 <div className="relative z-10 flex flex-col h-full">
                   <div className="flex justify-between items-start mb-8">
-                    <div className="w-16 h-16 bg-background rounded-2xl flex items-center justify-center border border-white/10 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300">
+                    <div className="w-16 h-16 bg-[#1a1a1a] rounded flex items-center justify-center border border-white/10 group-hover:border-primary group-hover:scale-110 transition-all duration-300 shadow-md">
                       <Icon className="w-8 h-8 text-primary" />
                     </div>
                     {prog.badge && (
-                      <span className="bg-primary/10 text-primary border border-primary/20 text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider backdrop-blur-md">
+                      <span className="bg-primary text-white border-2 border-primary/20 text-xs font-bold px-3 py-1.5 rounded uppercase tracking-wider shadow-sm">
                         {prog.badge}
                       </span>
                     )}
                   </div>
                   
-                  <h3 className="text-2xl font-bold text-white mb-4 tracking-tight group-hover:text-primary transition-colors">
+                  <h3 className="text-2xl font-bold text-white mb-4 tracking-tight uppercase group-hover:text-primary transition-colors">
                     {getTranslation(prog.titleKey, language)}
                   </h3>
                   <p className="text-muted-foreground leading-relaxed font-light mb-8 flex-1">
@@ -121,7 +120,7 @@ export function Programs() {
                   </p>
                   
                   <div className="mt-auto">
-                    <a href="#contact" className="inline-flex items-center text-sm font-bold text-white/50 group-hover:text-white transition-colors uppercase tracking-widest">
+                    <a href="#contact" className="inline-flex items-center text-sm font-bold text-white/50 group-hover:text-primary transition-colors uppercase tracking-widest">
                       Learn More <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
                     </a>
                   </div>

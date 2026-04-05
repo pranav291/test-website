@@ -48,9 +48,7 @@ export function Coach() {
   }
 
   return (
-    <section id="coach" className="py-24 md:py-32 relative overflow-hidden bg-background">
-      {/* Decorative */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+    <section id="coach" className="py-24 md:py-32 relative bg-background">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -65,13 +63,12 @@ export function Coach() {
           <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">
             Our Coach
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white">
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white uppercase">
             Meet The Coach
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
         </motion.div>
 
-        {/* Owner Card */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -79,14 +76,13 @@ export function Coach() {
           transition={{ duration: 0.6 }}
           className="flex justify-center mb-16"
         >
-          <div className="glass-minimal rounded-3xl p-10 relative group hover:bg-white/5 transition-all duration-500 overflow-hidden border border-amber-500/30 max-w-sm w-full text-center">
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-500/20 to-amber-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="relative z-10">
-              <div className="w-20 h-20 rounded-full bg-background flex items-center justify-center mb-6 border border-amber-500/30 mx-auto group-hover:scale-110 transition-transform duration-300">
-                <FaUserTie className="w-9 h-9 text-amber-400" />
+          <div className="tk-card-3d rounded-xl p-10 relative group max-w-sm w-full text-center">
+            <div className="relative z-10 w-full h-full">
+              <div className="w-24 h-24 rounded bg-[#1a1a1a] flex items-center justify-center mb-6 border border-amber-500/30 mx-auto group-hover:bg-amber-500/10 transition-colors duration-300 shadow-md">
+                <FaUserTie className="w-10 h-10 text-amber-500" />
               </div>
-              <h3 className="text-3xl font-black text-white mb-2 tracking-tight">Suraj Raj</h3>
-              <span className="inline-block text-xs font-bold px-3 py-1.5 rounded-full border uppercase tracking-wider mb-4 bg-amber-500/10 text-amber-400 border-amber-500/20">
+              <h3 className="text-3xl font-black text-white mb-2 tracking-tight uppercase">Suraj Raj</h3>
+              <span className="inline-block text-xs font-bold px-4 py-2 rounded bg-amber-500 text-white uppercase tracking-wider mb-6 shadow-sm">
                 {getTranslation('team.director', language)}
               </span>
               <p className="text-muted-foreground leading-relaxed font-light text-sm">
@@ -105,12 +101,12 @@ export function Coach() {
           className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-24"
         >
           {stats.map((stat, index) => (
-            <div key={index} className="glass-minimal rounded-2xl p-6 text-center group hover:bg-white/5 transition-colors">
-              <div className="w-12 h-12 bg-background mx-auto rounded-full flex items-center justify-center mb-4 border border-white/5 group-hover:border-primary/30 transition-colors">
-                <stat.icon className="w-5 h-5 text-primary" />
+            <div key={index} className="tk-card-3d rounded-xl p-6 text-center">
+              <div className="w-14 h-14 bg-[#1a1a1a] mx-auto rounded flex items-center justify-center mb-4 shadow-sm border border-white/5">
+                <stat.icon className="w-6 h-6 text-primary" />
               </div>
-              <p className="text-xl font-bold text-white mb-1">{stat.value}</p>
-              <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">{stat.label}</p>
+              <p className="text-xl font-black text-white mb-1 uppercase tracking-tight">{stat.value}</p>
+              <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">{stat.label}</p>
             </div>
           ))}
         </motion.div>
@@ -123,17 +119,17 @@ export function Coach() {
           transition={{ duration: 0.8 }}
         >
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-white tracking-tight mb-4">
+            <h3 className="text-3xl font-bold text-white tracking-tight mb-4 uppercase">
               {getTranslation('testimonials.title', language)}
             </h3>
             {/* Overall Rating */}
-            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full glass-minimal border border-amber-500/20">
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded tk-card-solid border border-amber-500/20">
               <div className="flex gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <FaStar key={i} className="w-4 h-4 text-amber-400" />
                 ))}
               </div>
-              <span className="text-sm font-semibold text-white">
+              <span className="text-sm font-bold text-white uppercase tracking-wider">
                 {getTranslation('testimonials.overallRating', language)}
               </span>
             </div>
@@ -151,9 +147,9 @@ export function Coach() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.05 }}
-                  className="glass-minimal rounded-2xl p-6 relative group hover:bg-white/5 transition-colors"
+                  className="tk-card-3d rounded-xl p-6 relative w-full h-full flex flex-col"
                 >
-                  <FaQuoteLeft className="absolute top-6 left-6 w-8 h-8 text-primary/10 group-hover:text-primary/20 transition-colors" />
+                  <FaQuoteLeft className="absolute top-6 left-6 w-8 h-8 text-primary/10" />
                   
                   {/* Stars */}
                   <div className="flex gap-0.5 mb-4 justify-end relative z-10">
@@ -166,20 +162,20 @@ export function Coach() {
                   </div>
                   
                   {/* Review Text */}
-                  <p className="text-foreground/80 font-light text-sm leading-relaxed mb-5 relative z-10 italic">
+                  <p className="text-foreground/80 font-semibold text-sm leading-relaxed mb-6 relative z-10 flex-1">
                     &ldquo;{getTranslation(testimonial.textKey, language)}&rdquo;
                   </p>
                   
                   {/* Reviewer Info */}
-                  <div className="flex items-center gap-3 border-t border-white/10 pt-4">
-                    <div className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-xs ${testimonial.color}`}>
+                  <div className="flex items-center gap-3 border-t border-white/10 pt-4 mt-auto">
+                    <div className={`w-10 h-10 rounded flex items-center justify-center font-bold text-sm ${testimonial.color} shadow-sm border border-white/5`}>
                       {initial}
                     </div>
                     <div>
-                      <p className="font-bold text-white text-sm tracking-wide">
+                      <p className="font-bold text-white text-sm tracking-wide uppercase">
                         {name}
                       </p>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider">
                         {getTranslation(testimonial.roleKey, language)}
                       </p>
                     </div>

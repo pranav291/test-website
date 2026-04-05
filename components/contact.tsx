@@ -94,7 +94,6 @@ export function Contact() {
 
   return (
     <section id="contact" className="py-24 md:py-32 relative bg-background">
-      <div className="absolute top-0 left-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] -translate-x-1/2 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div 
@@ -107,10 +106,10 @@ export function Contact() {
           <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">
             Connect
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white">
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white uppercase">
             {getTranslation('contact.title', language)}
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
         </motion.div>
 
         {/* Info Cards */}
@@ -130,7 +129,7 @@ export function Contact() {
                 href={card.href}
                 target={card.href.startsWith('http') ? '_blank' : undefined}
                 rel={card.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className={`glass-minimal rounded-3xl p-6 md:p-8 text-center group transition-all duration-300 ${card.colorHover}`}
+                className={`tk-card-3d rounded-xl p-6 md:p-8 text-center group transition-all duration-300 ${card.colorHover}`}
               >
                 <div className="w-14 h-14 md:w-16 md:h-16 bg-background rounded-2xl flex items-center justify-center mx-auto mb-4 md:mb-6 border border-white/5 group-hover:scale-110 transition-transform duration-300 shadow-xl">
                   <Icon className={`w-6 h-6 md:w-7 md:h-7 ${card.iconColor}`} />
@@ -158,7 +157,7 @@ export function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
-            className="glass-minimal rounded-3xl p-8 md:p-12 relative overflow-hidden"
+            className="tk-card-3d rounded-xl p-8 md:p-12 relative overflow-hidden"
           >
             <div className="flex items-center gap-4 mb-8">
               <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center border border-primary/20">
@@ -250,7 +249,7 @@ export function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="glass-minimal rounded-3xl overflow-hidden h-[400px] lg:h-auto min-h-[400px] border border-white/10"
+            className="tk-card-3d rounded-xl overflow-hidden h-[400px] lg:h-auto min-h-[400px] border border-white/10"
           >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d114678.40444463028!2d85.82173!3d26.15424!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39edb96e1ac8e6f9%3A0x2e8de4bed0c9aa69!2sDarbhanga%2C%20Bihar!5e0!3m2!1sen!2sin!4v1710000000000!5m2!1sen!2sin"

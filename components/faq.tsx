@@ -27,8 +27,7 @@ export function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(0)
 
   return (
-    <section id="faq" className="py-24 md:py-32 relative overflow-hidden bg-background">
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+    <section id="faq" className="py-24 md:py-32 relative bg-background">
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
@@ -42,10 +41,10 @@ export function FAQ() {
           <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">
             Help
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white">
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white uppercase">
             {getTranslation('faq.title', language)}
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
           <p className="text-muted-foreground mt-6 font-light max-w-lg mx-auto">
             {getTranslation('faq.subtitle', language)}
           </p>
@@ -62,8 +61,8 @@ export function FAQ() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className={`glass-minimal rounded-2xl overflow-hidden transition-colors duration-300 ${
-                  isOpen ? 'bg-white/5 border border-primary/20' : 'hover:bg-white/[0.03]'
+                className={`tk-card-3d rounded-xl overflow-hidden transition-colors duration-300 ${
+                  isOpen ? 'bg-[#1a1a1a] border border-primary/20' : 'hover:bg-[#1f1f1f]'
                 }`}
               >
                 <button

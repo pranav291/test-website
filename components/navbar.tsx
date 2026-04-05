@@ -40,9 +40,9 @@ export function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed w-full z-50 transition-all duration-500 ${
+        className={`fixed w-full z-50 transition-all duration-300 ${
           isScrolled 
-            ? 'bg-background/80 backdrop-blur-xl border-b border-white/5 py-3' 
+            ? 'bg-[#0f0f0f] border-b border-white/10 py-3 shadow-lg shadow-black/50' 
             : 'bg-transparent py-5'
         }`}
       >
@@ -67,7 +67,7 @@ export function Navbar() {
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-sm font-medium text-foreground/80 hover:text-foreground relative group py-2 transition-colors"
+                  className="text-sm font-bold text-white hover:text-primary relative group py-2 transition-colors uppercase tracking-widest"
                 >
                   {link.name}
                   <span className="absolute bottom-0 left-0 w-full h-[2px] bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300" />
@@ -86,7 +86,7 @@ export function Navbar() {
               
               <a
                 href="#contact"
-                className="bg-primary text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-primary/90 transition-colors btn-3d"
+                className="btn-3d-primary text-sm px-6 py-2 rounded-xl uppercase tracking-widest"
               >
                 {getTranslation('hero.joinBtn', language)}
               </a>
@@ -120,7 +120,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden pt-24 pb-8 px-6 flex flex-col"
+            className="fixed inset-0 z-40 bg-[#0f0f0f] md:hidden pt-24 pb-8 px-6 flex flex-col"
           >
             <div className="flex-1 flex flex-col justify-center space-y-6 text-center">
               {navLinks.map((link, i) => (
@@ -147,7 +147,7 @@ export function Navbar() {
               <a
                 href="#contact"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full py-4 text-center bg-primary text-white rounded-xl font-bold tracking-wide btn-3d"
+                className="block w-full text-sm btn-3d-primary uppercase tracking-widest"
               >
                 {getTranslation('hero.joinBtn', language)}
               </a>

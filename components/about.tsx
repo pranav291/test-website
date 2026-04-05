@@ -35,8 +35,6 @@ export function About() {
 
   return (
     <section id="about" className="py-24 md:py-32 relative overflow-hidden bg-background">
-      {/* Decorative */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -51,10 +49,10 @@ export function About() {
           <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">
             Discover
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white">
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white uppercase">
             {getTranslation('about.title', language)}
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
         </motion.div>
 
         {/* Description & Mission/Vision Cards */}
@@ -78,11 +76,11 @@ export function About() {
             className="grid gap-6"
           >
             {/* Mission */}
-            <div className="glass-minimal p-8 rounded-3xl group hover:-translate-y-2 transition-transform duration-300">
-              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300">
-                <GiFist className="w-6 h-6 text-primary" />
+            <div className="tk-card-3d p-8 rounded-xl group relative overflow-visible">
+              <div className="absolute -top-6 -left-6 w-12 h-12 bg-primary flex items-center justify-center rounded shadow-lg transform -rotate-12 group-hover:rotate-0 transition-transform duration-300 z-10">
+                <GiFist className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
+              <h3 className="text-2xl font-bold text-white mb-3 tracking-tight mt-2 uppercase">
                 {getTranslation('about.mission', language)}
               </h3>
               <p className="text-muted-foreground leading-relaxed font-light">
@@ -91,11 +89,11 @@ export function About() {
             </div>
 
             {/* Vision */}
-            <div className="glass-minimal p-8 rounded-3xl group hover:-translate-y-2 transition-transform duration-300">
-              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300">
-                <FaYinYang className="w-6 h-6 text-primary" />
+            <div className="tk-card-3d p-8 rounded-xl group relative overflow-visible">
+              <div className="absolute -top-6 -left-6 w-12 h-12 bg-primary flex items-center justify-center rounded shadow-lg transform -rotate-12 group-hover:rotate-0 transition-transform duration-300 z-10">
+                <FaYinYang className="w-6 h-6 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-3 tracking-tight">
+              <h3 className="text-2xl font-bold text-white mb-3 tracking-tight mt-2 uppercase">
                 {getTranslation('about.vision', language)}
               </h3>
               <p className="text-muted-foreground leading-relaxed font-light">
@@ -131,12 +129,12 @@ export function About() {
               <motion.div
                 key={index}
                 variants={item}
-                className="glass-minimal p-6 rounded-2xl flex flex-col items-center justify-center text-center group hover:bg-white/5 transition-colors duration-300"
+                className="tk-card-3d p-6 rounded-xl flex flex-col items-center justify-center text-center group"
               >
-                <div className="w-14 h-14 bg-background rounded-full flex items-center justify-center mb-4 border border-white/5 group-hover:border-primary/50 group-hover:scale-110 transition-all duration-300">
+                <div className="w-14 h-14 bg-[#1a1a1a] rounded flex items-center justify-center mb-4 border border-white/5 group-hover:border-primary group-hover:scale-110 transition-all duration-300 shadow-md">
                   <Icon className="w-7 h-7 text-primary" />
                 </div>
-                <h4 className="font-semibold text-foreground/90 group-hover:text-white transition-colors">
+                <h4 className="font-bold text-foreground/90 uppercase tracking-wide">
                   {getTranslation(benefit.titleKey, language)}
                 </h4>
               </motion.div>

@@ -20,9 +20,7 @@ export function Fees() {
   ]
 
   return (
-    <section id="fees" className="py-24 md:py-32 relative overflow-hidden bg-background">
-      {/* Decorative */}
-      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+    <section id="fees" className="py-24 md:py-32 relative bg-background">
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -37,10 +35,10 @@ export function Fees() {
           <span className="text-primary text-sm font-bold tracking-[0.2em] uppercase">
             Investment
           </span>
-          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white">
+          <h2 className="text-4xl md:text-5xl font-black mt-4 mb-6 tracking-tight text-white uppercase">
             {getTranslation('fees.title', language)}
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+          <div className="w-24 h-1 bg-primary mx-auto rounded-full" />
         </motion.div>
 
         <div className="max-w-4xl mx-auto">
@@ -50,14 +48,11 @@ export function Fees() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, type: "spring", stiffness: 200, damping: 20 }}
-            className="group relative"
+            className="group relative max-w-4xl mx-auto tk-card-3d p-8 md:p-12"
           >
-            {/* Animated Glow Border */}
-            <div className="absolute -inset-[2px] bg-gradient-to-r from-primary/50 via-primary/80 to-primary/50 rounded-3xl opacity-20 group-hover:opacity-100 blur-sm transition-opacity duration-500" />
-            
-            <div className="relative glass-minimal rounded-[22px] border border-white/10 p-8 md:p-12 overflow-hidden bg-background/80 md:bg-transparent">
+            <div className="relative z-10 w-full h-full">
               {/* Popular Badge */}
-              <div className="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-4 py-2 rounded-bl-2xl tracking-wider uppercase">
+              <div className="absolute -top-12 -right-12 bg-primary text-white text-xs font-bold px-6 py-2 rounded uppercase tracking-wider shadow-md transform rotate-12">
                 Most Popular
               </div>
 
@@ -74,7 +69,7 @@ export function Fees() {
                   </h3>
                   
                   <div className="text-5xl font-black text-white my-6 tracking-tight flex items-baseline justify-center md:justify-start">
-                    <span className="gradient-text-primary">₹500</span>
+                    <span className="tk-text-solid-primary">₹500</span>
                     <span className="text-lg text-muted-foreground font-medium ml-2">/mo</span>
                   </div>
                   
@@ -86,7 +81,7 @@ export function Fees() {
 
                   <a
                     href="#contact"
-                    className="mt-6 w-full inline-block bg-white text-black text-center font-bold px-8 py-4 rounded-xl hover:bg-primary hover:text-white transition-colors duration-300 btn-3d tracking-wide"
+                    className="mt-6 w-full inline-block btn-3d-primary tracking-widest text-sm"
                   >
                     Enroll Today
                   </a>

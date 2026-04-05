@@ -30,9 +30,18 @@ export const metadata: Metadata = {
     'Taekwondo Baheri',
     'Self Defence Benipatti',
     'DTA Darbhanga Academy',
-    'Darhanga Taekwondo',
+    'Darbhanga Taekwondo',
     'Fitness Darbhanga',
-    'Kids Martial Arts Bihar'
+    'Kids Martial Arts Bihar',
+    'Karate classes in Darbhanga',
+    'Martial arts training Darbhanga',
+    'Self defense classes for kids Darbhanga',
+    'Fitness center in Bela Darbhanga',
+    'Taekwondo tournament coaching Bihar',
+    'Women self defense training Darbhanga',
+    'Best coach for taekwondo near me',
+    'DTA Darbhanga fees',
+    'Taekwondo academy in North Bihar'
   ],
   authors: [{ name: 'Darbhanga Taekwondo Academy' }],
   creator: 'Darbhanga Taekwondo Academy',
@@ -75,12 +84,27 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Darbhanga Taekwondo Academy',
     description: 'Professional taekwondo training in Darbhanga, Bihar',
-    images: ['/images/hero-bg.png'],
+    images: ['/images/dta-logo-new.png'],
   },
   alternates: {
     canonical: 'https://darbhangataekwondo.fit',
+    languages: {
+      'en': 'https://darbhangataekwondo.fit',
+      'hi': 'https://darbhangataekwondo.fit?lang=hi',
+    }
   },
   category: 'Sports & Fitness',
+  other: {
+    'geo.region': 'IN-BR',
+    'geo.placename': 'Darbhanga',
+    'geo.position': '26.1542;85.8918',
+    'ICBM': '26.1542, 85.8918',
+  }
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
 }
 
 export default function RootLayout({
@@ -124,6 +148,23 @@ export default function RootLayout({
               sameAs: [
                 'https://www.instagram.com/kings_of_taekwondo/',
               ],
+              priceRange: '₹500 - ₹1500',
+              image: 'https://darbhangataekwondo.fit/images/dta-logo-new.png',
+              hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'Taekwondo Classes',
+                itemListElement: [
+                  {
+                    '@type': 'Offer',
+                    itemOffered: {
+                      '@type': 'Service',
+                      name: 'Monthly Training Fee'
+                    },
+                    price: '500',
+                    priceCurrency: 'INR'
+                  }
+                ]
+              },
               sport: 'Taekwondo',
               openingHoursSpecification: [
                 {

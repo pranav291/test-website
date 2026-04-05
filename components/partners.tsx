@@ -52,10 +52,10 @@ export function Partners() {
   }
 
   return (
-    <section className="py-20 md:py-24 relative overflow-hidden bg-background border-y border-white/5">
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
+    <section className="py-20 md:py-24 relative overflow-hidden bg-background">
+      <div className="absolute inset-0 bg-[#0f0f0f] clip-diagonal-reverse pointer-events-none" />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 pt-16">
         
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -63,10 +63,10 @@ export function Partners() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-4">
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-white mb-4 uppercase">
             {getTranslation('partners.title', language)}
           </h2>
-          <div className="w-16 h-1 bg-gradient-to-r from-primary to-transparent mx-auto rounded-full" />
+          <div className="w-16 h-1 bg-primary mx-auto rounded-full" />
         </motion.div>
 
         <motion.div
@@ -80,12 +80,9 @@ export function Partners() {
             <motion.div
               variants={item}
               key={index}
-              className="glass-minimal rounded-full p-4 md:p-6 flex items-center justify-center group hover:bg-white/5 transition-all duration-300 w-28 h-28 md:w-36 md:h-36 relative overflow-hidden shrink-0 border border-white/5"
+              className="tk-card-3d rounded-xl flex items-center justify-center p-4 w-32 h-32 md:w-40 md:h-40"
             >
-              {/* Hover Glow */}
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 border-inherit" />
-              
-              <div className="relative w-16 h-16 md:w-24 md:h-24 flex items-center justify-center transform group-hover:scale-110 transition-transform duration-300 z-10">
+              <div className="relative w-20 h-20 md:w-28 md:h-28 flex items-center justify-center">
                 <Image
                   src={partner.logo}
                   alt={partner.name}

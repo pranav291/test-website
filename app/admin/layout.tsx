@@ -6,12 +6,13 @@ import { usePathname } from 'next/navigation'
 import { LogoutButton } from '@/components/admin/logout-button'
 import {
   LayoutDashboard, BarChart2, Trophy, Megaphone, Star, Menu, X,
-  Users, CalendarCheck, IndianRupee, MessageSquare, Image as ImageIcon
+  Users, CalendarCheck, IndianRupee, MessageSquare, Image as ImageIcon, FileText
 } from 'lucide-react'
 
 const navLinks = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/stats', label: 'Stats', icon: BarChart2 },
+  { href: '/admin/blog', label: 'Blog', icon: FileText },
   { href: '/admin/achievements', label: 'Awards', icon: Trophy },
   { href: '/admin/announcements', label: 'Notice', icon: Megaphone },
   { href: '/admin/reviews', label: 'Reviews', icon: Star },

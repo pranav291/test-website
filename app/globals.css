@@ -80,24 +80,27 @@
 
 /* Custom Utilities */
 @layer utilities {
-  .glass {
-    @apply bg-background/60 backdrop-blur-xl border-y border-white/10;
+  .tk-card-3d {
+    @apply bg-[#0f0f0f] border border-white/10;
+    box-shadow: 0 8px 0 0 rgba(230, 57, 70, 0.2), 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .tk-card-3d:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 0 0 rgba(230, 57, 70, 0.4), 0 20px 25px -5px rgba(0, 0, 0, 0.6);
   }
 
-  .glass-card {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  .tk-card-solid {
+    @apply bg-[#141414] border border-white/5;
   }
 
-  .glass-minimal {
-    @apply bg-white/[0.02] backdrop-blur-[2px] border border-white/[0.05];
+  .tk-card-solid:hover {
+    @apply bg-[#1a1a1a];
   }
 
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-white via-primary to-white;
-  }
-
-  .text-gradient-primary {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-400;
+  .tk-text-solid-primary {
+    @apply text-primary font-bold;
   }
 
   /* Admin panel utilities */
@@ -109,13 +112,18 @@
     display: none;
   }
 
-  .gradient-text {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60;
-  }
-
   .custom-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: oklch(0.25 0 0) transparent;
+  }
+
+  /* Utility for diagonal cuts */
+  .clip-diagonal {
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 40px), 0 100%);
+  }
+
+  .clip-diagonal-reverse {
+    clip-path: polygon(0 40px, 100% 0, 100% 100%, 0 100%);
   }
 }
 
@@ -142,10 +150,26 @@
   position: relative;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
+  box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.5);
 }
 
 .btn-3d:active {
+  transform: translateY(4px);
+  box-shadow: 0 0px 0 0 rgba(0, 0, 0, 0.5);
+}
+
+.btn-3d-primary {
+  @apply bg-primary text-white font-bold p-4 text-center rounded-xl;
+  box-shadow: 0 6px 0 0 rgba(0, 0, 0, 0.6), inset 0 2px 0 0 rgba(255, 255, 255, 0.2);
+}
+.btn-3d-primary:hover {
+  @apply bg-primary/90;
   transform: translateY(2px);
+  box-shadow: 0 4px 0 0 rgba(0, 0, 0, 0.6), inset 0 2px 0 0 rgba(255, 255, 255, 0.2);
+}
+.btn-3d-primary:active {
+  transform: translateY(6px);
+  box-shadow: none;
 }
 
 .whatsapp-float {
