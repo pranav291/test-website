@@ -7,8 +7,11 @@ import { useLanguage } from '@/app/language-context'
 import { getTranslation } from '@/lib/translations'
 import { HiMenuAlt3, HiX, HiTranslate } from 'react-icons/hi'
 import { DTALogo } from '@/components/logo'
+import { usePathname } from 'next/navigation'
 
 export function Navbar() {
+  const pathname = usePathname()
+  const isHome = pathname === '/'
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { language, setLanguage } = useLanguage()
@@ -49,7 +52,7 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center">
             {/* Logo */}
-            <a href="#home" className="flex items-center gap-3 group">
+            <a href="/" className="flex items-center gap-3 group">
               <DTALogo size={40} className="md:w-[48px] md:h-[48px] border border-white/10 group-hover:border-primary/50 transition-colors rounded-full" />
               <div className="flex flex-col">
                 <span className="text-base sm:text-lg md:text-xl font-bold text-foreground tracking-tight group-hover:text-primary transition-colors">
@@ -66,7 +69,7 @@ export function Navbar() {
               {navLinks.map((link) => (
                 <a
                   key={link.name}
-                  href={link.href}
+                  href={isHome ? link.href : `/${link.href}`}
                   className="text-sm font-bold text-white hover:text-primary relative group py-2 transition-colors uppercase tracking-widest"
                 >
                   {link.name}
@@ -85,7 +88,7 @@ export function Navbar() {
               </button>
               
               <a
-                href="#contact"
+                href={isHome ? "#contact" : "/#contact"}
                 className="btn-3d-primary text-sm px-6 py-2 rounded-xl uppercase tracking-widest"
               >
                 {getTranslation('hero.joinBtn', language)}
@@ -126,7 +129,7 @@ export function Navbar() {
               {navLinks.map((link, i) => (
                 <motion.a
                   key={link.name}
-                  href={link.href}
+                  href={isHome ? link.href : `/${link.href}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
@@ -145,7 +148,7 @@ export function Navbar() {
               className="mt-auto"
             >
               <a
-                href="#contact"
+                href={isHome ? "#contact" : "/#contact"}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className="block w-full text-sm btn-3d-primary uppercase tracking-widest"
               >

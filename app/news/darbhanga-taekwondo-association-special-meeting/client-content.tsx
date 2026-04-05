@@ -2,8 +2,12 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { FaCalendarAlt, FaMapMarkerAlt, FaUsers, FaTools, FaTrophy, FaLightbulb, FaNewspaper, FaClock } from 'react-icons/fa'
+import { FaCalendarAlt, FaMapMarkerAlt, FaUsers, FaTools, FaTrophy, FaLightbulb, FaNewspaper, FaClock, FaShareAlt, FaChevronRight } from 'react-icons/fa'
+import { LanguageProvider } from '@/app/language-context'
+import { Navbar } from '@/components/navbar'
+import { Footer } from '@/components/footer'
 
 const hiContent = {
   title: "दरभंगा ताइक्वांडो एसोसिएशन की ऐतिहासिक विशेष बैठक: आधुनिकीकरण और कैमूर राज्यस्तरीय प्रतियोगिता की विस्तृत रणनीति",
@@ -103,147 +107,226 @@ export default function NewsClientContent() {
   if (lang === 'en') t = enContent
 
   return (
-    <div className="min-h-screen bg-background pt-32 pb-24 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[150px] pointer-events-none" />
+    <LanguageProvider>
+      <Navbar />
+      <div className="min-h-screen bg-background pt-32 pb-24 relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[150px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[150px] pointer-events-none" />
 
-      <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        {/* Language Toggle */}
-        <div className="flex justify-end mb-8 relative z-20">
-          <div className="bg-[#1a1a1a] p-1 rounded-lg border border-white/10 flex text-sm font-bold uppercase tracking-wider overflow-x-auto max-w-full">
-            <button 
-              onClick={() => setLang('hinglish')} 
-              className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${lang === 'hinglish' ? 'bg-primary text-white shadow-md' : 'text-white/50 hover:text-white'}`}
-            >
-              Hinglish
-            </button>
-            <button 
-              onClick={() => setLang('hi')} 
-              className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${lang === 'hi' ? 'bg-primary text-white shadow-md' : 'text-white/50 hover:text-white'}`}
-            >
-              हिन्दी
-            </button>
-            <button 
-              onClick={() => setLang('en')} 
-              className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${lang === 'en' ? 'bg-primary text-white shadow-md' : 'text-white/50 hover:text-white'}`}
-            >
-              English
-            </button>
-          </div>
-        </div>
-
-        {/* Header Section */}
-        <header className="mb-10 text-center md:text-left">
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-xs font-bold uppercase tracking-widest text-primary mb-6">
-            <span className="flex items-center gap-2"><FaNewspaper /> {t.author}</span>
-            <span className="text-white/30">•</span>
-            <span className="flex items-center gap-2 text-white/50"><FaCalendarAlt /> {t.date}</span>
-            <span className="text-white/30">•</span>
-            <span className="flex items-center gap-2 text-white/50"><FaClock /> {t.readTime}</span>
-          </div>
-          <h1 className="text-3xl md:text-5xl lg:text-5xl font-black text-white leading-[1.2] uppercase tracking-tight mb-6">
-            {t.title}
-          </h1>
-        </header>
-
-        {/* Hero Image */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="w-full relative h-[300px] md:h-[500px] rounded-2xl overflow-hidden mb-12 shadow-2xl border border-white/5"
-        >
-          <Image 
-            src="https://enhanceaiart.s3.us-west-2.amazonaws.com/uploads/6f305b94-9d5f-4145-afee-18e37a5e1d7e.jpeg"
-            alt="Darbhanga Taekwondo Association Historic Meeting"
-            fill
-            className="object-cover transition-transform duration-700 hover:scale-105"
-            priority
-          />
-        </motion.div>
-
-        {/* Article Content */}
-        <div className="prose prose-invert prose-lg max-w-none 
-                        prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight 
-                        prose-p:text-white/80 prose-p:leading-relaxed prose-p:font-light
-                        prose-strong:text-white prose-strong:font-bold">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           
-          <p className="text-xl md:text-2xl text-primary font-bold leading-relaxed mb-10">
-            {t.intro}
-          </p>
+          <div className="flex flex-col lg:flex-row gap-12">
+            
+            {/* Primary Content Area (Left Column) */}
+            <article className="w-full lg:w-2/3 xl:w-3/4">
+              
+              {/* Language Toggle & Breadcrumbs */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-8 gap-4 border-b border-white/5 pb-6">
+                <div className="flex text-xs font-bold uppercase tracking-widest text-primary gap-2">
+                  <Link href="/" className="hover:text-white transition-colors">Home</Link>
+                  <span className="text-white/30">/</span>
+                  <Link href="/news" className="hover:text-white transition-colors">News</Link>
+                  <span className="text-white/30">/</span>
+                  <span className="text-white/50 truncate md:max-w-xs">{t.date}</span>
+                </div>
 
-          <div className="w-24 h-1 bg-white/10 my-12 mx-auto md:mx-0" />
+                <div className="bg-[#1a1a1a] p-1 rounded-lg border border-white/10 flex text-sm font-bold uppercase tracking-wider overflow-x-auto">
+                  <button 
+                    onClick={() => setLang('hinglish')} 
+                    className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${lang === 'hinglish' ? 'bg-primary text-white shadow-md' : 'text-white/50 hover:text-white'}`}
+                  >
+                    Hinglish
+                  </button>
+                  <button 
+                    onClick={() => setLang('hi')} 
+                    className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${lang === 'hi' ? 'bg-primary text-white shadow-md' : 'text-white/50 hover:text-white'}`}
+                  >
+                    हिन्दी
+                  </button>
+                  <button 
+                    onClick={() => setLang('en')} 
+                    className={`px-4 py-2 rounded-md transition-colors whitespace-nowrap ${lang === 'en' ? 'bg-primary text-white shadow-md' : 'text-white/50 hover:text-white'}`}
+                  >
+                    English
+                  </button>
+                </div>
+              </div>
 
-          <h2 className="text-2xl md:text-3xl text-white flex items-center gap-4">
-            <FaUsers className="text-primary hidden sm:block" /> {t.heading1}
-          </h2>
-          <p>{t.p1}</p>
-          <p>{t.p2}</p>
+              {/* Header Section */}
+              <header className="mb-10 text-left">
+                <h1 className="text-3xl md:text-5xl lg:text-5xl font-black text-white leading-[1.2] uppercase tracking-tight mb-6">
+                  {t.title}
+                </h1>
+                <div className="flex flex-wrap items-center gap-4 text-xs font-bold uppercase tracking-widest text-primary mb-6 bg-[#111] p-4 rounded-xl border border-white/5 inline-flex shadow-sm">
+                  <span className="flex items-center gap-2"><FaNewspaper /> {t.author}</span>
+                  <span className="text-white/30">•</span>
+                  <span className="flex items-center gap-2 text-white/50"><FaCalendarAlt /> {t.date}</span>
+                  <span className="text-white/30">•</span>
+                  <span className="flex items-center gap-2 text-white/50"><FaClock /> {t.readTime}</span>
+                </div>
+              </header>
 
-          <h2 className="text-2xl md:text-3xl text-white mt-12 mb-6">
-             {t.heading2}
-          </h2>
-          <div className="bg-[#1a1a1a] border-l-4 border-primary p-6 rounded-r-xl my-8">
-             <p className="m-0 italic text-white/90">
-               {t.p3}
-             </p>
-          </div>
-          <p>{t.p4}</p>
+              {/* Hero Image */}
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="w-full relative h-[300px] md:h-[500px] rounded-2xl overflow-hidden mb-12 shadow-2xl border border-white/5"
+              >
+                <Image 
+                  src="https://enhanceaiart.s3.us-west-2.amazonaws.com/uploads/6f305b94-9d5f-4145-afee-18e37a5e1d7e.jpeg"
+                  alt="Darbhanga Taekwondo Association Historic Meeting"
+                  fill
+                  className="object-cover transition-transform duration-700 hover:scale-105"
+                  priority
+                />
+              </motion.div>
 
-          <h2 className="text-2xl md:text-3xl text-white mt-12 mb-6 flex items-center gap-4">
-             <FaTrophy className="text-primary hidden sm:block" /> {t.heading3}
-          </h2>
-          <p>{t.p5}</p>
-          <p>{t.p6}</p>
+              {/* Article Content */}
+              <div className="prose prose-invert prose-lg max-w-none 
+                              prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight 
+                              prose-p:text-white/80 prose-p:leading-relaxed prose-p:font-medium
+                              prose-strong:text-white prose-strong:font-bold">
+                
+                <p className="text-xl md:text-2xl text-primary font-bold leading-relaxed mb-10">
+                  {t.intro}
+                </p>
 
-          <h2 className="text-2xl md:text-3xl text-white mt-12 mb-6 flex items-center gap-4">
-            <FaTools className="text-primary hidden sm:block" /> {t.heading4}
-          </h2>
-          <p>{t.p7}</p>
+                <div className="w-24 h-1 bg-white/10 my-12" />
 
-          <ul className="space-y-6 my-8 list-none pl-0">
-            <li className="flex items-start gap-4 tk-card-3d p-6 rounded-xl border border-white/5 shadow-md">
-               <div className="w-10 h-10 rounded bg-[#1f1f1f] flex items-center justify-center flex-shrink-0 mt-1 border border-primary/20">
-                 <FaLightbulb className="text-primary" />
-               </div>
-               <span className="text-white/80 leading-relaxed block">
-                 <strong className="text-white uppercase tracking-wider block mb-2 text-lg">{t.bullet1.split(':')[0]}</strong>
-                 {t.bullet1.split(':')[1]}
-               </span>
-            </li>
-            <li className="flex items-start gap-4 tk-card-3d p-6 rounded-xl border border-white/5 shadow-md">
-               <div className="w-10 h-10 rounded bg-[#1f1f1f] flex items-center justify-center flex-shrink-0 mt-1 border border-amber-500/20">
-                 <FaMapMarkerAlt className="text-amber-500" />
-               </div>
-               <span className="text-white/80 leading-relaxed block">
-                 <strong className="text-white uppercase tracking-wider block mb-2 text-lg">{t.bullet2.split(':')[0]}</strong>
-                 {t.bullet2.split(':')[1]}
-               </span>
-            </li>
-            <li className="flex items-start gap-4 tk-card-3d p-6 rounded-xl border border-white/5 shadow-md">
-               <div className="w-10 h-10 rounded bg-[#1f1f1f] flex items-center justify-center flex-shrink-0 mt-1 border border-blue-500/20">
-                 <FaUsers className="text-blue-500" />
-               </div>
-               <span className="text-white/80 leading-relaxed block">
-                 <strong className="text-white uppercase tracking-wider block mb-2 text-lg">{t.bullet3.split(':')[0]}</strong>
-                 {t.bullet3.split(':')[1]}
-               </span>
-            </li>
-          </ul>
+                <h2 className="text-2xl md:text-3xl text-white flex items-center gap-4">
+                  <FaUsers className="text-primary hidden sm:block" /> {t.heading1}
+                </h2>
+                <p>{t.p1}</p>
+                <p>{t.p2}</p>
 
-          <h2 className="text-2xl md:text-3xl text-white mt-12 mb-6">
-            {t.heading5}
-          </h2>
-          <p>{t.p8}</p>
-          <div className="tk-card-3d p-8 rounded-xl text-center mt-10 shadow-lg border border-primary/20">
-            <p className="text-xl font-bold text-white uppercase tracking-widest m-0 leading-relaxed">
-              &quot;{t.p9}&quot;
-            </p>
+                <h2 className="text-2xl md:text-3xl text-white mt-12 mb-6">
+                   {t.heading2}
+                </h2>
+                <div className="bg-[#1a1a1a] border-l-4 border-primary p-6 rounded-r-xl my-8">
+                   <p className="m-0 italic text-white/90">
+                     &quot;{t.p3}&quot;
+                   </p>
+                </div>
+                <p>{t.p4}</p>
+
+                <h2 className="text-2xl md:text-3xl text-white mt-12 mb-6 flex items-center gap-4">
+                   <FaTrophy className="text-primary hidden sm:block" /> {t.heading3}
+                </h2>
+                <p>{t.p5}</p>
+                <p>{t.p6}</p>
+
+                <h2 className="text-2xl md:text-3xl text-white mt-12 mb-6 flex items-center gap-4">
+                  <FaTools className="text-primary hidden sm:block" /> {t.heading4}
+                </h2>
+                <p>{t.p7}</p>
+
+                <ul className="space-y-6 my-8 list-none pl-0">
+                  <li className="flex items-start gap-4 tk-card-3d p-6 rounded-xl border border-white/5 shadow-md">
+                     <div className="w-10 h-10 rounded bg-[#1f1f1f] flex items-center justify-center flex-shrink-0 mt-1 border border-primary/20">
+                       <FaLightbulb className="text-primary" />
+                     </div>
+                     <span className="text-white/80 leading-relaxed block">
+                       <strong className="text-white uppercase tracking-wider block mb-2 text-lg">{t.bullet1.split(':')[0]}</strong>
+                       {t.bullet1.split(':')[1]}
+                     </span>
+                  </li>
+                  <li className="flex items-start gap-4 tk-card-3d p-6 rounded-xl border border-white/5 shadow-md">
+                     <div className="w-10 h-10 rounded bg-[#1f1f1f] flex items-center justify-center flex-shrink-0 mt-1 border border-amber-500/20">
+                       <FaMapMarkerAlt className="text-amber-500" />
+                     </div>
+                     <span className="text-white/80 leading-relaxed block">
+                       <strong className="text-white uppercase tracking-wider block mb-2 text-lg">{t.bullet2.split(':')[0]}</strong>
+                       {t.bullet2.split(':')[1]}
+                     </span>
+                  </li>
+                  <li className="flex items-start gap-4 tk-card-3d p-6 rounded-xl border border-white/5 shadow-md">
+                     <div className="w-10 h-10 rounded bg-[#1f1f1f] flex items-center justify-center flex-shrink-0 mt-1 border border-blue-500/20">
+                       <FaUsers className="text-blue-500" />
+                     </div>
+                     <span className="text-white/80 leading-relaxed block">
+                       <strong className="text-white uppercase tracking-wider block mb-2 text-lg">{t.bullet3.split(':')[0]}</strong>
+                       {t.bullet3.split(':')[1]}
+                     </span>
+                  </li>
+                </ul>
+
+                <h2 className="text-2xl md:text-3xl text-white mt-12 mb-6">
+                  {t.heading5}
+                </h2>
+                <p>{t.p8}</p>
+                <div className="tk-card-3d p-8 rounded-xl text-center mt-10 shadow-lg border border-primary/20">
+                  <p className="text-xl font-bold text-white uppercase tracking-widest m-0 leading-relaxed">
+                    &quot;{t.p9}&quot;
+                  </p>
+                </div>
+              </div>
+
+              {/* Share Box */}
+              <div className="mt-16 flex items-center gap-4 border-t border-white/10 pt-8">
+                <span className="text-sm font-bold uppercase tracking-widest text-white/50 flex items-center gap-2">
+                  <FaShareAlt /> Share Article
+                </span>
+                <div className="flex gap-2">
+                   <button className="w-10 h-10 rounded-full bg-[#1da1f2]/10 text-[#1da1f2] hover:bg-[#1da1f2] hover:text-white transition-colors uppercase font-bold text-xs">TW</button>
+                   <button className="w-10 h-10 rounded-full bg-[#25d366]/10 text-[#25d366] hover:bg-[#25d366] hover:text-white transition-colors uppercase font-bold text-xs">WA</button>
+                   <button className="w-10 h-10 rounded-full bg-[#1877f2]/10 text-[#1877f2] hover:bg-[#1877f2] hover:text-white transition-colors uppercase font-bold text-xs">FB</button>
+                </div>
+              </div>
+            </article>
+
+            {/* Sidebar (Right Column) */}
+            <aside className="w-full lg:w-1/3 xl:w-1/4 space-y-8">
+              
+              {/* About Club Widget */}
+              <div className="tk-card-3d rounded-2xl p-6 border border-white/5">
+                <h3 className="text-xl font-black text-white uppercase tracking-wide mb-4 flex items-center gap-2">
+                  <div className="w-2 h-6 bg-primary" /> Darbhanga Taekwondo
+                </h3>
+                <p className="text-sm text-white/70 font-light leading-relaxed mb-6">
+                  Premium martial arts training in Darbhanga focusing on self-defense, confidence building, and competitive excellence.
+                </p>
+                <Link href="/#about" className="text-xs font-bold uppercase tracking-widest text-primary hover:text-white transition-colors flex items-center gap-1">
+                  Learn More <FaChevronRight size={10} />
+                </Link>
+              </div>
+
+              {/* Related/Latest Events Widget */}
+              <div className="tk-card-solid rounded-2xl p-6 border border-white/5 bg-[#141414]">
+                <h3 className="text-sm font-bold text-white/50 uppercase tracking-widest mb-6 border-b border-white/5 pb-4">
+                  Upcoming Events
+                </h3>
+                <div className="space-y-4">
+                  <Link href="/news" className="group block">
+                    <span className="text-[10px] text-primary font-bold uppercase tracking-widest block mb-1">June 5-7, 2026</span>
+                    <h4 className="text-white group-hover:text-primary transition-colors text-sm font-bold leading-snug">Kaimur State Level Taekwondo Championship</h4>
+                  </Link>
+                  <div className="w-full h-[1px] bg-white/5" />
+                  <Link href="/news" className="group block">
+                    <span className="text-[10px] text-amber-500 font-bold uppercase tracking-widest block mb-1">Coming Soon</span>
+                    <h4 className="text-white group-hover:text-amber-500 transition-colors text-sm font-bold leading-snug">Women's Self-Defense Elite Camp</h4>
+                  </Link>
+                </div>
+              </div>
+
+              {/* Call to Action CTA */}
+              <div className="rounded-2xl p-6 bg-gradient-to-b from-primary/20 to-transparent border border-primary/30 text-center shadow-lg relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/20 rounded-full blur-[30px]" />
+                <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-3">Join The Elite</h3>
+                <p className="text-sm text-white/80 font-light mb-6">
+                  Ready to start your journey? Admissions are now open for the new batch.
+                </p>
+                <Link href="/#contact" className="block w-full py-3 bg-primary hover:bg-white hover:text-black transition-all text-white font-bold uppercase tracking-widest text-xs rounded-xl shadow-md">
+                  Enroll Now
+                </Link>
+              </div>
+
+            </aside>
           </div>
         </div>
-      </article>
-    </div>
+      </div>
+      <Footer />
+    </LanguageProvider>
   )
 }
